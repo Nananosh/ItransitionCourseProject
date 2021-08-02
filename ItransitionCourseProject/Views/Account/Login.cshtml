@@ -1,0 +1,20 @@
+﻿@model ItransitionCourseProject.ViewModels.LoginViewModel
+ 
+<h2>Login</h2>
+<form class="form-group" method="post" asp-controller="Account" asp-action="Login" 
+      asp-route-returnUrl="@Model.ReturnUrl">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+        <label asp-for="UserName">Username</label>
+        <input class="form-control" asp-for="UserName" placeholder="Enter username">
+        <span asp-validation-for="UserName"></span>
+    </div>
+    <div class="form-group">
+            <label asp-for="Password">Password</label>
+            <input class="form-control" asp-for="Password" placeholder="Enter password">
+            <span asp-validation-for="Password"></span>
+        </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+</form>

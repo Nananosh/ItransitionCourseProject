@@ -1,0 +1,29 @@
+﻿@model ItransitionCourseProject.ViewModels.RegisterViewModel
+<h2>Registration</h2>
+<form class="form-group" method="post" asp-controller="Account" asp-action="Register">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-group">
+            <label asp-for="Email">Email</label>
+            <input class="form-control" asp-for="Email" placeholder="Enter email">
+            <span asp-validation-for="Email"></span>
+        </div>
+    <div class="form-group">
+            <label asp-for="UserName">Username</label>
+            <input class="form-control" asp-for="UserName" placeholder="Enter username">
+            <span asp-validation-for="UserName"></span>
+        </div>
+    <div class="form-group">
+                <label asp-for="Password">Password</label>
+                <input class="form-control" asp-for="Password" placeholder="Enter password">
+                <span asp-validation-for="Password"></span>
+            </div>
+    
+    <div class="form-group">
+                <label asp-for="PasswordConfirm">Password сonfirm</label>
+                <input class="form-control" asp-for="PasswordConfirm" placeholder="Repeat password">
+                <span asp-validation-for="PasswordConfirm"></span>
+            </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </div>
+</form>
