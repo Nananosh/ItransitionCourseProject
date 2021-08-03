@@ -11,12 +11,13 @@ namespace ItransitionCourseProject.Controllers
     {
         private readonly ApplicationContext _database;
         private readonly ILogger<HomeController> _logger;
-        
+
         public HomeController(ApplicationContext context, ILogger<HomeController> logger)
         {
             _database = context;
             _logger = logger;
         }
+
         public async Task<IActionResult> Index()
         {
             ViewBag.AllProfiles = await _database.Users.ToListAsync();

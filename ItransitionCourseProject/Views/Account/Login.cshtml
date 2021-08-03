@@ -1,7 +1,7 @@
 ﻿@model ItransitionCourseProject.ViewModels.LoginViewModel
- 
+
 <h2>Login</h2>
-<form class="form-group" method="post" asp-controller="Account" asp-action="Login" 
+<form class="form-group" method="post" asp-controller="Account" asp-action="Login"
       asp-route-returnUrl="@Model.ReturnUrl">
     <div asp-validation-summary="ModelOnly"></div>
     <div class="form-group">
@@ -10,11 +10,32 @@
         <span asp-validation-for="UserName"></span>
     </div>
     <div class="form-group">
-            <label asp-for="Password">Password</label>
-            <input class="form-control" asp-for="Password" placeholder="Enter password">
-            <span asp-validation-for="Password"></span>
-        </div>
+        <label asp-for="Password">Password</label>
+        <input class="form-control" asp-for="Password" placeholder="Enter password">
+        <span asp-validation-for="Password"></span>
+    </div>
     <div>
         <button type="submit" class="btn btn-primary">Login</button>
     </div>
 </form>
+
+
+<div class="col-md-6">
+    <h1>External Login</h1>
+    <hr/>
+    @{
+    <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+        <div>
+            @foreach (var provider in ViewBag.ExternalLogins)
+            {
+                <button type="submit" class="btn btn-primary"
+                        name="provider" value="@provider.Name"
+                        title="Login usin your @provider.DisplayName account">
+                    @provider.DisplayName
+                </button>
+            }
+        </div>
+    </form>
+
+    }
+</div>

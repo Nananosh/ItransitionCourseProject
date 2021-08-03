@@ -11,10 +11,10 @@ namespace ItransitionCourseProject.Models
         public DbSet<CustomFields> CustomFields { get; set; }
         public DbSet<Likes> Likes { get; set; }
         public DbSet<Tags> Tags { get; set; }
+
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
-            
         }
     }
 }
