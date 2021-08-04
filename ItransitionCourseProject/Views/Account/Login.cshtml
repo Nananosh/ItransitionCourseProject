@@ -5,12 +5,12 @@
       asp-route-returnUrl="@Model.ReturnUrl">
     <div asp-validation-summary="ModelOnly"></div>
     <div class="form-group">
-        <label asp-for="UserName">Username</label>
+        <label asp-for="UserName"></label>
         <input class="form-control" asp-for="UserName" placeholder="Enter username">
         <span asp-validation-for="UserName"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Password">Password</label>
+        <label asp-for="Password"></label>
         <input class="form-control" asp-for="Password" placeholder="Enter password">
         <span asp-validation-for="Password"></span>
     </div>
@@ -19,23 +19,21 @@
     </div>
 </form>
 
-
 <div class="col-md-6">
     <h1>External Login</h1>
     <hr/>
-    @{
     <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
         <div>
-            @foreach (var provider in ViewBag.ExternalLogins)
-            {
-                <button type="submit" class="btn btn-primary"
-                        name="provider" value="@provider.Name"
-                        title="Login usin your @provider.DisplayName account">
-                    @provider.DisplayName
-                </button>
-            }
+            <button type="submit" class="btn btn-primary"
+                    name="provider" value="Google"
+                    title="Login usin your Google account">
+                Google
+            </button>
+            <button type="submit" class="btn btn-primary"
+                    name="provider" value="Facebook"
+                    title="Login usin your Facebook account">
+                Facebook
+            </button>
         </div>
     </form>
-
-    }
 </div>

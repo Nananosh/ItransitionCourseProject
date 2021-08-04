@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Channels;
 using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
 using ItransitionCourseProject.ViewModels;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +25,6 @@ namespace ItransitionCourseProject.Controllers
             _signInManager = signInManager;
         }
 
-
         [AllowAnonymous]
         [HttpPost]
         public IActionResult ExternalLogin(string provider, string returnUrl)
@@ -47,7 +44,7 @@ namespace ItransitionCourseProject.Controllers
         {
             returnUrl ??= Url.Content("~/");
 
-            LoginViewModel loginViewModel = new LoginViewModel
+            var loginViewModel = new LoginViewModel
             {
                 ReturnUrl = returnUrl,
             };
@@ -119,7 +116,7 @@ namespace ItransitionCourseProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User
+                var user = new User
                 {
                     Email = model.Email, UserName = model.UserName, RegistrationDate = DateTime.Now,
                     LastLoginDate = DateTime.Now
@@ -145,7 +142,6 @@ namespace ItransitionCourseProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
-            ViewBag.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             return View(new LoginViewModel {ReturnUrl = returnUrl});
         }
 
@@ -184,7 +180,6 @@ namespace ItransitionCourseProject.Controllers
 
             return View(model);
         }
-
 
         [Authorize]
         public async Task<IActionResult> Logout()
@@ -234,8 +229,17 @@ namespace ItransitionCourseProject.Controllers
                     await _userManager.SetLockoutEndDateAsync(user, null);
                 }
             }
-
             return RedirectToAction("Index", "Home");
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public bool CheckEmail(string email)
+        {
+            if(_database.Users.Any(user => user.Email == email))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

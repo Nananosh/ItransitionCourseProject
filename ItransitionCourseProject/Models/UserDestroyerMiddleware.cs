@@ -26,7 +26,6 @@ namespace ItransitionCourseProject.Models
                 {
                     if (user.LockoutEnd > DateTimeOffset.Now)
                     {
-                        //Log the user out and redirect back to homepage
                         await signInManager.SignOutAsync();
                         httpContext.Response.Redirect("/Account/Login");
                     }
@@ -37,6 +36,7 @@ namespace ItransitionCourseProject.Models
                     httpContext.Response.Redirect("/Account/Register");
                 }
             }
+
             await _next(httpContext);
         }
     }

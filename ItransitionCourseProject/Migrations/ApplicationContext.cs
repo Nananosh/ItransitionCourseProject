@@ -7,10 +7,10 @@ namespace ItransitionCourseProject.Models
     {
         public DbSet<Collection> Collections { get; set; }
         public DbSet<CollectionElement> CollectionElements { get; set; }
-        public DbSet<Comments> Comments { get; set; }
-        public DbSet<CustomFields> CustomFields { get; set; }
-        public DbSet<Likes> Likes { get; set; }
-        public DbSet<Tags> Tags { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<CustomField> CustomFields { get; set; }
+        public DbSet<Like> Likes { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)

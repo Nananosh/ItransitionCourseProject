@@ -2,11 +2,11 @@
 
 namespace ItransitionCourseProject.Models
 {
-    public class Comments
+    public class CustomField
     {
         public int Id { get; set; }
-        public User User { get; set; }
-        public string Text { get; set; }
+        public string Name { get; set; }
+        public string Value { get; set; }
         public List<Collection> Collection { get; set; } = new List<Collection>();
     }
 }

@@ -2,11 +2,11 @@
 
 namespace ItransitionCourseProject.Models
 {
-    public class Tags
+    public class Like
     {
         public int Id { get; set; }
-        public int TagName { get; set; }
+        public int Star { get; set; }
         public List<Collection> Collection { get; set; } = new List<Collection>();
-        public List<CollectionElement> CollectionElements { get; set; } = new List<CollectionElement>();
+        public User User { get; set; }
     }
 }

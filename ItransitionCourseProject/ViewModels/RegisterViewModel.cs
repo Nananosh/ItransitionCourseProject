@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ItransitionCourseProject.ViewModels
 {
@@ -6,6 +7,7 @@ namespace ItransitionCourseProject.ViewModels
     {
         [Required]
         [DataType(DataType.EmailAddress)]
+        [Remote(action: "CheckEmail", controller: "Account",ErrorMessage = "Email is already in use")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
