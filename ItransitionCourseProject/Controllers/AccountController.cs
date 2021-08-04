@@ -40,18 +40,17 @@ namespace ItransitionCourseProject.Controllers
                     Email = model.Email, UserName = model.UserName, RegistrationDate = DateTime.Now,
                     LastLoginDate = DateTime.Now
                 };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Home");
                 }
-                else
+
+                foreach (var error in result.Errors)
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
@@ -70,37 +69,26 @@ namespace ItransitionCourseProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result =
-                    await _signInManager.PasswordSignInAsync(model.UserName, model.Password, true, false);
-                if (result.Succeeded)
+                var signInResult = await _signInManager
+                    .PasswordSignInAsync(model.UserName, model.Password, true, false);
+                if (signInResult.Succeeded)
                 {
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
                         return Redirect(model.ReturnUrl);
                     }
-                    else
-                    {
-                        var user = _database.Users.FirstOrDefault(u => u.UserName == model.UserName);
-                        if (user != null)
-                        {
-                            user.LastLoginDate = DateTime.Now;
-                            _database.Entry(user).State = EntityState.Modified;
-                        }
 
-                        await _database.SaveChangesAsync();
-                        return RedirectToAction("Index", "Home");
-                    }
+                    SetLastLoginDateToUser(model);
+                    await _database.SaveChangesAsync();
+                    return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Incorrect username or password");
-                }
+
+                ModelState.AddModelError("", "Incorrect username or password");
             }
 
             return View(model);
         }
 
-        
         [Authorize]
         public async Task<IActionResult> Logout()
         {
@@ -120,8 +108,10 @@ namespace ItransitionCourseProject.Controllers
                     _database.SaveChanges();
                 }
             }
+
             return RedirectToAction("Index", "Home");
         }
+
         [HttpPost]
         public async Task<IActionResult> BlockUser(string[] selectedUsersId)
         {
@@ -133,8 +123,10 @@ namespace ItransitionCourseProject.Controllers
                     await _userManager.SetLockoutEndDateAsync(user, DateTime.Today.AddYears(100));
                 }
             }
+
             return RedirectToAction("Index", "Home");
         }
+
         public async Task<IActionResult> UnBlockUser(string[] selectedUsersId)
         {
             if (selectedUsersId != null)
@@ -145,7 +137,18 @@ namespace ItransitionCourseProject.Controllers
                     await _userManager.SetLockoutEndDateAsync(user, null);
                 }
             }
+
             return RedirectToAction("Index", "Home");
+        }
+
+        private void SetLastLoginDateToUser(LoginViewModel model)
+        {
+            var user = _database.Users.FirstOrDefault(u => u.UserName == model.UserName);
+            if (user != null)
+            {
+                user.LastLoginDate = DateTime.Now;
+                _database.Entry(user).State = EntityState.Modified;
+            }
         }
     }
 }
