@@ -9,9 +9,9 @@ namespace ItransitionCourseProject.Models
         public string Title { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }
-        public List<Likes> Likes { get; set; } = new List<Likes>();
-        public List<Comments> Comments { get; set; } = new List<Comments>();
-        public List<CustomFields> CustomFields { get; set; } = new List<CustomFields>();
-        public List<Tags> Tags { get; set; } = new List<Tags>();
+        public List<Like> Likes { get; set; } = new();
+        public List<Comment> Comments { get; set; } = new();
+        public List<CustomField> CustomFields { get; set; } = new();
+        public List<Tag> Tags { get; set; } = new();
     }
 }

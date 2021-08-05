@@ -9,6 +9,6 @@ namespace ItransitionCourseProject.Models
         public string Title { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }
-        public List<Tags> Tags { get; set; } = new List<Tags>();
+        public List<Tag> Tags { get; set; } = new();
     }
 }

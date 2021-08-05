@@ -1,20 +1,39 @@
 ﻿@model ItransitionCourseProject.ViewModels.LoginViewModel
- 
+
 <h2>Login</h2>
-<form class="form-group" method="post" asp-controller="Account" asp-action="Login" 
+<form class="form-group" method="post" asp-controller="Account" asp-action="Login"
       asp-route-returnUrl="@Model.ReturnUrl">
     <div asp-validation-summary="ModelOnly"></div>
     <div class="form-group">
-        <label asp-for="UserName">Username</label>
+        <label asp-for="UserName"></label>
         <input class="form-control" asp-for="UserName" placeholder="Enter username">
         <span asp-validation-for="UserName"></span>
     </div>
     <div class="form-group">
-            <label asp-for="Password">Password</label>
-            <input class="form-control" asp-for="Password" placeholder="Enter password">
-            <span asp-validation-for="Password"></span>
-        </div>
+        <label asp-for="Password"></label>
+        <input class="form-control" asp-for="Password" placeholder="Enter password">
+        <span asp-validation-for="Password"></span>
+    </div>
     <div>
         <button type="submit" class="btn btn-primary">Login</button>
     </div>
 </form>
+
+<div class="col-md-6">
+    <h1>External Login</h1>
+    <hr/>
+    <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+        <div>
+            <button type="submit" class="btn btn-primary"
+                    name="provider" value="Google"
+                    title="Login usin your Google account">
+                Google
+            </button>
+            <button type="submit" class="btn btn-primary"
+                    name="provider" value="Facebook"
+                    title="Login usin your Facebook account">
+                Facebook
+            </button>
+        </div>
+    </form>
+</div>

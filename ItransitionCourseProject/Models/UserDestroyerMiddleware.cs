@@ -19,14 +19,12 @@ namespace ItransitionCourseProject.Models
             SignInManager<User> signInManager)
         {
             if (!string.IsNullOrEmpty(httpContext.User.Identity?.Name))
-            {
-                SignOut(httpContext, userManager, signInManager);
-            }
+                await SignOut(httpContext, userManager, signInManager);
 
             await _next(httpContext);
         }
 
-        private async void SignOut(HttpContext httpContext, UserManager<User> userManager,
+        private async Task SignOut(HttpContext httpContext, UserManager<User> userManager,
             SignInManager<User> signInManager)
         {
             var user = await userManager.FindByNameAsync(httpContext.User.Identity?.Name);
