@@ -6,7 +6,7 @@ namespace ItransitionCourseProject.Models
     {
         public int Id { get; set; }
         public int Star { get; set; }
-        public List<Collection> Collection { get; set; } = new List<Collection>();
+        public List<Collection> Collection { get; set; } = new();
         public User User { get; set; }
     }
 }

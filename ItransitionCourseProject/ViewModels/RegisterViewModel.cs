@@ -7,7 +7,7 @@ namespace ItransitionCourseProject.ViewModels
     {
         [Required]
         [DataType(DataType.EmailAddress)]
-        [Remote(action: "CheckEmail", controller: "Account",ErrorMessage = "Email is already in use")]
+        [Remote("CheckEmail", "Account", ErrorMessage = "Email is already in use")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 

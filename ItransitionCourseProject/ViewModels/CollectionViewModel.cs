@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ItransitionCourseProject.ViewModels
@@ -7,13 +6,11 @@ namespace ItransitionCourseProject.ViewModels
     public class CollectionViewModel
     {
         [Required]
-        [Remote(action: "CheckTitle", controller: "Collection", ErrorMessage = "This title is already used")]
+        [Remote("CheckTitle", "Collection", ErrorMessage = "This title is already used")]
         [Display(Name = "Title")]
         public string Title { get; set; }
 
-        [Required] 
-        [Display(Name = "Image")] 
-        public string Image { get; set; }
+        [Required] [Display(Name = "Image")] public string Image { get; set; }
 
         [Required]
         [Display(Name = "Description")]

@@ -9,6 +9,6 @@ namespace ItransitionCourseProject.Models
         public DateTime RegistrationDate { get; set; }
         public DateTime LastLoginDate { get; set; }
         public string UserImage { get; set; }
-        public List<Like> Likes { get; set; } = new List<Like>();
+        public List<Like> Likes { get; set; } = new();
     }
 }

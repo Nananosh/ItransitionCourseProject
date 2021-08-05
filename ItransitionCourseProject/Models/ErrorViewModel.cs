@@ -1,5 +1,3 @@
-using System;
-
 namespace ItransitionCourseProject.Models
 {
     public class ErrorViewModel

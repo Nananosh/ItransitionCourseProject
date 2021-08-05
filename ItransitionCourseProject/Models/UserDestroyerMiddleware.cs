@@ -19,9 +19,7 @@ namespace ItransitionCourseProject.Models
             SignInManager<User> signInManager)
         {
             if (!string.IsNullOrEmpty(httpContext.User.Identity?.Name))
-            {
                 await SignOut(httpContext, userManager, signInManager);
-            }
 
             await _next(httpContext);
         }
