@@ -43,7 +43,6 @@ namespace ItransitionCourseProject.Models
                 await signInManager.SignOutAsync();
                 httpContext.Response.Redirect("/Account/Register");
             }
-            await _next(httpContext);
         }
     }
 
