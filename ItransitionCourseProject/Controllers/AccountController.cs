@@ -121,18 +121,17 @@ namespace ItransitionCourseProject.Controllers
                     Email = model.Email, UserName = model.UserName, RegistrationDate = DateTime.Now,
                     LastLoginDate = DateTime.Now
                 };
+
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Home");
                 }
-                else
+
+                foreach (var error in result.Errors)
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
@@ -151,31 +150,21 @@ namespace ItransitionCourseProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result =
-                    await _signInManager.PasswordSignInAsync(model.UserName, model.Password, true, false);
-                if (result.Succeeded)
+                var signInResult = await _signInManager
+                    .PasswordSignInAsync(model.UserName, model.Password, true, false);
+                if (signInResult.Succeeded)
                 {
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
                         return Redirect(model.ReturnUrl);
                     }
-                    else
-                    {
-                        var user = _database.Users.FirstOrDefault(u => u.UserName == model.UserName);
-                        if (user != null)
-                        {
-                            user.LastLoginDate = DateTime.Now;
-                            _database.Entry(user).State = EntityState.Modified;
-                        }
 
-                        await _database.SaveChangesAsync();
-                        return RedirectToAction("Index", "Home");
-                    }
+                    SetLastLoginDateToUser(model);
+                    await _database.SaveChangesAsync();
+                    return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Incorrect username or password");
-                }
+
+                ModelState.AddModelError("", "Incorrect username or password");
             }
 
             return View(model);
@@ -229,6 +218,7 @@ namespace ItransitionCourseProject.Controllers
                     await _userManager.SetLockoutEndDateAsync(user, null);
                 }
             }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -240,6 +230,16 @@ namespace ItransitionCourseProject.Controllers
                 return false;
             }
             return true;
+        }
+
+        private void SetLastLoginDateToUser(LoginViewModel model)
+        {
+            var user = _database.Users.FirstOrDefault(u => u.UserName == model.UserName);
+            if (user != null)
+            {
+                user.LastLoginDate = DateTime.Now;
+                _database.Entry(user).State = EntityState.Modified;
+            }
         }
     }
 }
