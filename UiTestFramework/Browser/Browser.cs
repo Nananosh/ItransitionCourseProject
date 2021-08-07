@@ -1,7 +1,7 @@
 using System;
-using UiTestFramework.exceptions;
-using UiTestFramework.pages.base_page;
 using OpenQA.Selenium;
+using UiTestFramework.exceptions;
+using UiTestFramework.pages.BasePage;
 
 namespace UiTestFramework.browser
 {
@@ -28,12 +28,16 @@ namespace UiTestFramework.browser
         {
             WebDriver.Quit();
             Closed = true;
-            WebDriver.Dispose();
         }
 
         internal IWebElement FindElement(By locator)
         {
             return WebDriver.FindElement(locator);
+        }
+
+        internal IWebElement FindElement(IPage parentPage, By locator)
+        {
+            return WebDriver.FindElement(parentPage.GetRootLocator()).FindElement(locator);
         }
     }
 }

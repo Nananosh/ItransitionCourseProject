@@ -1,9 +1,10 @@
-using AuctionSeleniumAutotests.pages.base_page;
-using UiTestFramework.browser;
+using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using UiTestFramework.browser;
+using UiTestFramework.pages.BasePage;
 
-namespace UiTestFramework.pages.base_page
+namespace UiTestFramework.pages.BasePage
 {
     public abstract class BasePage<T> : LoadableComponent<T>, IPage where T : BasePage<T>
     {
@@ -33,6 +34,12 @@ namespace UiTestFramework.pages.base_page
         public sealed override T Load()
         {
             return base.Load();
+        }
+
+        public T Do(Action action)
+        {
+            action.Invoke();
+            return (T) this;
         }
 
         protected abstract string GetPageUrl();

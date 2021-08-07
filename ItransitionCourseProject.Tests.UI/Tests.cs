@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UiTestFramework.browser;
 using UiTestFramework.pages;
+using UiTestFramework.pages.App;
 
 namespace ItransitionCourseProject.Tests.UI
 {
@@ -8,19 +9,20 @@ namespace ItransitionCourseProject.Tests.UI
     [Parallelizable(ParallelScope.All)]
     public class Tests
     {
+        [TearDown]
+        public void CloseBrowser()
+        {
+            ThreadLocalBrowserManager.GetBrowser().Quit();
+        }
+
         [Test]
         public void Test()
         {
             ThreadLocalBrowserManager
                 .GetBrowser()
-                .OpenPage<GooglePage>()
-                .EnterQueryIntoSearchField("Wikipedia")
-                .ClickSearchButton()
-                .IsOpened();
-                
-            ThreadLocalBrowserManager.GetBrowser().Quit();
-
-            Assert.Pass();
+                .OpenPage<MainPage>()
+                .Do(Assert.Pass)
+                .NavigationBar.ClickRegisterLink();
         }
 
         [Test]
@@ -28,8 +30,7 @@ namespace ItransitionCourseProject.Tests.UI
         {
             ThreadLocalBrowserManager
                 .GetBrowser()
-                .OpenPage<GooglePage>()
-                .Browser.Quit();
+                .OpenPage<GooglePage>();
 
             Assert.Pass();
         }

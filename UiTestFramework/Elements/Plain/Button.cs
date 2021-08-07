@@ -1,5 +1,5 @@
-using AuctionSeleniumAutotests.pages.base_page;
 using OpenQA.Selenium;
+using UiTestFramework.pages.BasePage;
 
 namespace UiTestFramework.elements.plain
 {

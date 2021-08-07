@@ -1,7 +1,7 @@
-using UiTestFramework.browser;
 using OpenQA.Selenium;
+using UiTestFramework.browser;
 
-namespace AuctionSeleniumAutotests.pages.base_page
+namespace UiTestFramework.pages.BasePage
 {
     internal interface IPage
     {

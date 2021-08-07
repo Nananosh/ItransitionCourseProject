@@ -1,13 +1,12 @@
 using System;
+using OpenQA.Selenium;
 using UiTestFramework.elements.interfaces;
 using UiTestFramework.exceptions;
-using AuctionSeleniumAutotests.pages.base_page;
-using OpenQA.Selenium;
-
+using UiTestFramework.pages.BasePage;
 namespace UiTestFramework.elements
 {
-    public abstract class BaseElement<TElement> : IClickable<TElement>
-        where TElement : BaseElement<TElement>, IClickable<TElement>
+    public abstract class BaseElement<TElement> : IClickable<TElement>, IContainingText
+        where TElement : BaseElement<TElement>, IClickable<TElement>, IContainingText
     {
         private readonly string _name;
 
@@ -44,6 +43,11 @@ namespace UiTestFramework.elements
             throw new NotImplementedException();
         }
 
+        public string GetText()
+        {
+            return GetWebElement().Text;
+        }
+
         protected IWebElement GetWebElement()
         {
             ThrowExceptionIfParentPageIsNotOpened();
@@ -59,7 +63,7 @@ namespace UiTestFramework.elements
 
         private IWebElement FindWebElement(By locator)
         {
-            return ParentPage.Browser.FindElement(locator);
+            return ParentPage.Browser.FindElement(ParentPage, locator);
         }
 
         private void ThrowExceptionIfElementIsNotDisplayedButShouldBe(IWebElement element, string errorMessage)

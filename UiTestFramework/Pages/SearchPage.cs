@@ -1,7 +1,7 @@
 using System;
-using UiTestFramework.browser;
-using UiTestFramework.pages.base_page;
 using OpenQA.Selenium;
+using UiTestFramework.browser;
+using UiTestFramework.pages.BasePage;
 
 namespace UiTestFramework.pages
 {

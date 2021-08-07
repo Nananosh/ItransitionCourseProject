@@ -1,12 +1,10 @@
-using AuctionSeleniumAutotests.pages;
+using OpenQA.Selenium;
 using UiTestFramework.browser;
 using UiTestFramework.elements.plain;
-using UiTestFramework.pages.base_page;
-using OpenQA.Selenium;
 
 namespace UiTestFramework.pages
 {
-    public class GooglePage : BasePage<GooglePage>
+    public class GooglePage : BasePage.BasePage<GooglePage>
     {
         private readonly Button _searchButton;
         private readonly Input _searchInput;
