@@ -10,7 +10,7 @@ namespace UiTestFramework.Data.Factories
             var userFaker = new Faker<UserModel>()
                 .CustomInstantiator(f => new UserModel())
                 .RuleFor(p => p.Email, f => $"{RandomStringFactory.GetRandomString(6)}.{f.Internet.Email()}")
-                .RuleFor(p => p.Name, f => $"{f.Internet.UserName()}_{RandomStringFactory.GetRandomString(6)}")
+                .RuleFor(p => p.Name, f => $"{f.Name.FullName()} {RandomStringFactory.GetRandomString(6)}")
                 .RuleFor(p => p.Password, f => f.Internet.Password() + "z1Z*Test");
             return userFaker.Generate();
         }

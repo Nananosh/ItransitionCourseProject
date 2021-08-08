@@ -52,9 +52,11 @@ namespace ItransitionCourseProject.Tests.UI.Registration
                 {
                     Assert.Multiple(() =>
                     {
-                        Assert.True(page.IsEmailErrorMessageDisplayed(), "Incorrect email error isn't displayed");
-                        Assert.AreEqual("Email is already in use", page.GetIncorrectEmailMessageText(),
-                            "Incorrect email error has incorrect text");
+                        var expectedValidationError = $"Email '{existingUser.Email}' is already taken.";
+                        var actualValidationErrors = page.GetValidationErrorsText();
+                        Assert.True(actualValidationErrors.Contains(expectedValidationError),
+                            $"There is no validation error with text {expectedValidationError}. " +
+                            $"Validation errors: {actualValidationErrors}");
                     });
                 });
         }
