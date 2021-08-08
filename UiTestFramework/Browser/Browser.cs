@@ -1,7 +1,7 @@
 using System;
 using OpenQA.Selenium;
 using UiTestFramework.exceptions;
-using UiTestFramework.pages.BasePage;
+using UiTestFramework.pages.Base;
 
 namespace UiTestFramework.browser
 {
@@ -18,6 +18,8 @@ namespace UiTestFramework.browser
         internal IWebDriver WebDriver => Closed ? throw new WebDriverClosedException("Driver is closed") : _webDriver;
 
         public bool Closed { get; private set; }
+        
+        public string CurrentUrl => WebDriver.Url;
 
         public T OpenPage<T>() where T : BasePage<T>
         {

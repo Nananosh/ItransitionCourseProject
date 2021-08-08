@@ -4,7 +4,7 @@ using UiTestFramework.elements.plain;
 
 namespace UiTestFramework.pages
 {
-    public class GooglePage : BasePage.BasePage<GooglePage>
+    public class GooglePage : Base.BasePage<GooglePage>
     {
         private readonly Button _searchButton;
         private readonly Input _searchInput;
@@ -32,7 +32,7 @@ namespace UiTestFramework.pages
             return true;
         }
 
-        protected override string GetPageUrl()
+        public override string GetPageUrl()
         {
             return "https://google.com/";
         }

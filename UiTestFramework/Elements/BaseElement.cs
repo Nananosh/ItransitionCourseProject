@@ -2,7 +2,7 @@ using System;
 using OpenQA.Selenium;
 using UiTestFramework.elements.interfaces;
 using UiTestFramework.exceptions;
-using UiTestFramework.pages.BasePage;
+using UiTestFramework.pages.Base;
 namespace UiTestFramework.elements
 {
     public abstract class BaseElement<TElement> : IClickable<TElement>, IContainingText

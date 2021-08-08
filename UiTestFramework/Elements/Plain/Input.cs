@@ -1,6 +1,6 @@
 using OpenQA.Selenium;
 using UiTestFramework.elements.interfaces;
-using UiTestFramework.pages.BasePage;
+using UiTestFramework.pages.Base;
 
 namespace UiTestFramework.elements.plain
 {

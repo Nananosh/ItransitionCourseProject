@@ -1,7 +1,7 @@
 using System;
 using OpenQA.Selenium;
 using UiTestFramework.browser;
-using UiTestFramework.pages.BasePage;
+using UiTestFramework.pages.Base;
 
 namespace UiTestFramework.pages
 {
@@ -16,7 +16,7 @@ namespace UiTestFramework.pages
             return false;
         }
 
-        protected override string GetPageUrl()
+        public override string GetPageUrl()
         {
             throw new NotImplementedException();
         }

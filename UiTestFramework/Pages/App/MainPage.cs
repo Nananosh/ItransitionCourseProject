@@ -1,8 +1,8 @@
 ﻿using OpenQA.Selenium;
 using UiTestFramework.browser;
 using UiTestFramework.PageComponents;
-using static UiTestFramework.Properties.Properties;
-using UiTestFramework.pages.BasePage;
+using static UiTestFramework.Properties.TestProperties;
+using UiTestFramework.pages.Base;
 
 namespace UiTestFramework.pages.App
 {
@@ -25,9 +25,9 @@ namespace UiTestFramework.pages.App
             return true;
         }
 
-        protected override string GetPageUrl()
+        public override string GetPageUrl()
         {
-            return MainSiteUrl;
+            return MainUrl;
         }
     }
 }

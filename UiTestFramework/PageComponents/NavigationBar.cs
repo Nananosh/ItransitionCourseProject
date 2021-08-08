@@ -2,7 +2,8 @@
 using OpenQA.Selenium;
 using UiTestFramework.browser;
 using UiTestFramework.elements.plain;
-using UiTestFramework.pages.BasePage;
+using UiTestFramework.pages.App;
+using UiTestFramework.pages.Base;
 
 namespace UiTestFramework.PageComponents
 {
@@ -34,7 +35,7 @@ namespace UiTestFramework.PageComponents
             return false;
         }
 
-        protected override string GetPageUrl()
+        public override string GetPageUrl()
         {
             throw new NotImplementedException();
         }
@@ -50,10 +51,10 @@ namespace UiTestFramework.PageComponents
             return null;
         }
         
-        public object ClickRegisterLink()
+        public RegistrationPage ClickRegisterLink()
         {
             _registerLink.Click();
-            return null;
+            return new RegistrationPage(Browser);
         }
     }
 }

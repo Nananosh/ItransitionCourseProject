@@ -1,13 +1,13 @@
-using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using UiTestFramework.browser;
-using UiTestFramework.pages.BasePage;
 
-namespace UiTestFramework.pages.BasePage
+namespace UiTestFramework.pages.Base
 {
     public abstract class BasePage<T> : LoadableComponent<T>, IPage where T : BasePage<T>
     {
+        public delegate void PageAction(T page);
+
         public BasePage(Browser browser)
         {
             Browser = browser;
@@ -36,13 +36,13 @@ namespace UiTestFramework.pages.BasePage
             return base.Load();
         }
 
-        public T Do(Action action)
+        public T Do(PageAction action)
         {
-            action.Invoke();
+            action.Invoke((T) this);
             return (T) this;
         }
 
-        protected abstract string GetPageUrl();
+        public abstract string GetPageUrl();
 
         protected sealed override void ExecuteLoad()
         {
