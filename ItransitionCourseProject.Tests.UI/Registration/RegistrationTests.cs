@@ -35,7 +35,7 @@ namespace ItransitionCourseProject.Tests.UI.Registration
 
         [Test]
         [Category("Negative")]
-        public void RegisterTwoAccountsForOneEmailTest()
+        public void TryToRegisterTwoAccountsForOneEmailTest()
         {
             var existingUser = RegistrationSteps.RegisterNewUser();
             var newUser = UserDataFactory.GetRandomUser();
@@ -56,6 +56,31 @@ namespace ItransitionCourseProject.Tests.UI.Registration
                         Assert.AreEqual("Email is already in use", page.GetIncorrectEmailMessageText(),
                             "Incorrect email error has incorrect text");
                     });
+                });
+        }
+
+        [Test]
+        [Category("Negative")]
+        public void TryToRegisterTwoAccountsWithTheSameNameTest()
+        {
+            var existingUser = RegistrationSteps.RegisterNewUser();
+            var newUser = UserDataFactory.GetRandomUser();
+
+            ThreadLocalBrowserManager.GetBrowser()
+                .OpenPage<MainPage>()
+                .NavigationBar.ClickRegisterLink()
+                .EnterEmail(newUser.Email)
+                .EnterUsername(existingUser.Name)
+                .EnterPassword(newUser.Password)
+                .EnterPasswordRepeat(newUser.Password)
+                .ClickRegisterButton<RegistrationPage>()
+                .Do(page =>
+                {
+                    var expectedValidationError = $"Username '{existingUser.Name}' is already taken.";
+                    var actualValidationErrors = page.GetValidationErrorsText();
+                    Assert.True(actualValidationErrors.Contains(expectedValidationError),
+                        $"There is no validation error with text {expectedValidationError}. " +
+                        $"Validation errors: {actualValidationErrors}");
                 });
         }
     }

@@ -9,11 +9,10 @@ namespace UiTestFramework.pages.App
     public class RegistrationPage : BasePage<RegistrationPage>
     {
         private readonly Input _emailInput;
-
         private readonly Label _incorrectEmailMessageLabel;
+        private readonly Label _validationErrorsLabel;
         private readonly Input _passwordInput;
         private readonly Input _passwordRepeatInput;
-
         private readonly Button _registerButton;
         private readonly Input _usernameInput;
 
@@ -36,6 +35,9 @@ namespace UiTestFramework.pages.App
 
             _incorrectEmailMessageLabel = new Label(this,
                 By.Id("Email-error"), "Email error message");
+
+            _validationErrorsLabel = new Label(this,
+                By.CssSelector(".validation-summary-errors"), "Validation errors");
         }
 
         public override By GetRootLocator()
@@ -97,6 +99,11 @@ namespace UiTestFramework.pages.App
         public string GetIncorrectEmailMessageText()
         {
             return _incorrectEmailMessageLabel.Text;
+        }
+
+        public string GetValidationErrorsText()
+        {
+            return _validationErrorsLabel.Text;
         }
     }
 }
