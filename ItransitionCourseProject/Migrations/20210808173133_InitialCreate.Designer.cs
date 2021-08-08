@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItransitionCourseProject.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210802203139_InitialCreate")]
+    [Migration("20210808173133_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace ItransitionCourseProject.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CollectionComments", b =>
+            modelBuilder.Entity("CollectionComment", b =>
                 {
                     b.Property<int>("CollectionId")
                         .HasColumnType("int");
@@ -33,10 +33,10 @@ namespace ItransitionCourseProject.Migrations
 
                     b.HasIndex("CommentsId");
 
-                    b.ToTable("CollectionComments");
+                    b.ToTable("CollectionComment");
                 });
 
-            modelBuilder.Entity("CollectionCustomFields", b =>
+            modelBuilder.Entity("CollectionCustomField", b =>
                 {
                     b.Property<int>("CollectionId")
                         .HasColumnType("int");
@@ -48,10 +48,10 @@ namespace ItransitionCourseProject.Migrations
 
                     b.HasIndex("CustomFieldsId");
 
-                    b.ToTable("CollectionCustomFields");
+                    b.ToTable("CollectionCustomField");
                 });
 
-            modelBuilder.Entity("CollectionElementTags", b =>
+            modelBuilder.Entity("CollectionElementTag", b =>
                 {
                     b.Property<int>("CollectionElementsId")
                         .HasColumnType("int");
@@ -63,10 +63,10 @@ namespace ItransitionCourseProject.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("CollectionElementTags");
+                    b.ToTable("CollectionElementTag");
                 });
 
-            modelBuilder.Entity("CollectionLikes", b =>
+            modelBuilder.Entity("CollectionLike", b =>
                 {
                     b.Property<int>("CollectionId")
                         .HasColumnType("int");
@@ -78,10 +78,10 @@ namespace ItransitionCourseProject.Migrations
 
                     b.HasIndex("LikesId");
 
-                    b.ToTable("CollectionLikes");
+                    b.ToTable("CollectionLike");
                 });
 
-            modelBuilder.Entity("CollectionTags", b =>
+            modelBuilder.Entity("CollectionTag", b =>
                 {
                     b.Property<int>("CollectionId")
                         .HasColumnType("int");
@@ -93,7 +93,7 @@ namespace ItransitionCourseProject.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("CollectionTags");
+                    b.ToTable("CollectionTag");
                 });
 
             modelBuilder.Entity("ItransitionCourseProject.Models.Collection", b =>
@@ -148,7 +148,7 @@ namespace ItransitionCourseProject.Migrations
                     b.ToTable("CollectionElements");
                 });
 
-            modelBuilder.Entity("ItransitionCourseProject.Models.Comments", b =>
+            modelBuilder.Entity("ItransitionCourseProject.Models.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -168,7 +168,7 @@ namespace ItransitionCourseProject.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("ItransitionCourseProject.Models.CustomFields", b =>
+            modelBuilder.Entity("ItransitionCourseProject.Models.CustomField", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -186,7 +186,7 @@ namespace ItransitionCourseProject.Migrations
                     b.ToTable("CustomFields");
                 });
 
-            modelBuilder.Entity("ItransitionCourseProject.Models.Likes", b =>
+            modelBuilder.Entity("ItransitionCourseProject.Models.Like", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -206,15 +206,15 @@ namespace ItransitionCourseProject.Migrations
                     b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("ItransitionCourseProject.Models.Tags", b =>
+            modelBuilder.Entity("ItransitionCourseProject.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("TagName")
-                        .HasColumnType("int");
+                    b.Property<string>("TagName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -426,7 +426,7 @@ namespace ItransitionCourseProject.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CollectionComments", b =>
+            modelBuilder.Entity("CollectionComment", b =>
                 {
                     b.HasOne("ItransitionCourseProject.Models.Collection", null)
                         .WithMany()
@@ -434,14 +434,14 @@ namespace ItransitionCourseProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ItransitionCourseProject.Models.Comments", null)
+                    b.HasOne("ItransitionCourseProject.Models.Comment", null)
                         .WithMany()
                         .HasForeignKey("CommentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CollectionCustomFields", b =>
+            modelBuilder.Entity("CollectionCustomField", b =>
                 {
                     b.HasOne("ItransitionCourseProject.Models.Collection", null)
                         .WithMany()
@@ -449,14 +449,14 @@ namespace ItransitionCourseProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ItransitionCourseProject.Models.CustomFields", null)
+                    b.HasOne("ItransitionCourseProject.Models.CustomField", null)
                         .WithMany()
                         .HasForeignKey("CustomFieldsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CollectionElementTags", b =>
+            modelBuilder.Entity("CollectionElementTag", b =>
                 {
                     b.HasOne("ItransitionCourseProject.Models.CollectionElement", null)
                         .WithMany()
@@ -464,14 +464,14 @@ namespace ItransitionCourseProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ItransitionCourseProject.Models.Tags", null)
+                    b.HasOne("ItransitionCourseProject.Models.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CollectionLikes", b =>
+            modelBuilder.Entity("CollectionLike", b =>
                 {
                     b.HasOne("ItransitionCourseProject.Models.Collection", null)
                         .WithMany()
@@ -479,14 +479,14 @@ namespace ItransitionCourseProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ItransitionCourseProject.Models.Likes", null)
+                    b.HasOne("ItransitionCourseProject.Models.Like", null)
                         .WithMany()
                         .HasForeignKey("LikesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CollectionTags", b =>
+            modelBuilder.Entity("CollectionTag", b =>
                 {
                     b.HasOne("ItransitionCourseProject.Models.Collection", null)
                         .WithMany()
@@ -494,7 +494,7 @@ namespace ItransitionCourseProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ItransitionCourseProject.Models.Tags", null)
+                    b.HasOne("ItransitionCourseProject.Models.Tag", null)
                         .WithMany()
                         .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -519,7 +519,7 @@ namespace ItransitionCourseProject.Migrations
                     b.Navigation("Collection");
                 });
 
-            modelBuilder.Entity("ItransitionCourseProject.Models.Comments", b =>
+            modelBuilder.Entity("ItransitionCourseProject.Models.Comment", b =>
                 {
                     b.HasOne("ItransitionCourseProject.Models.User", "User")
                         .WithMany()
@@ -528,7 +528,7 @@ namespace ItransitionCourseProject.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ItransitionCourseProject.Models.Likes", b =>
+            modelBuilder.Entity("ItransitionCourseProject.Models.Like", b =>
                 {
                     b.HasOne("ItransitionCourseProject.Models.User", "User")
                         .WithMany("Likes")
