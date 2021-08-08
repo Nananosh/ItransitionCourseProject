@@ -10,11 +10,14 @@ namespace UiTestFramework.pages.App
     {
         private readonly Input _emailInput;
         private readonly Label _incorrectEmailMessageLabel;
-        private readonly Label _validationErrorsLabel;
+        private readonly Label _incorrectPasswordMessageLabel;
+        private readonly Label _incorrectPasswordRepeatMessageLabel;
+        private readonly Label _incorrectUsernameMessageLabel;
         private readonly Input _passwordInput;
         private readonly Input _passwordRepeatInput;
         private readonly Button _registerButton;
         private readonly Input _usernameInput;
+        private readonly Label _validationErrorsLabel;
 
         public RegistrationPage(Browser browser) : base(browser)
         {
@@ -35,6 +38,15 @@ namespace UiTestFramework.pages.App
 
             _incorrectEmailMessageLabel = new Label(this,
                 By.Id("Email-error"), "Email error message");
+
+            _incorrectUsernameMessageLabel = new Label(this,
+                By.Id("UserName-error"), "Username message");
+
+            _incorrectPasswordMessageLabel = new Label(this,
+                By.Id("Password-error"), "Password error message");
+
+            _incorrectPasswordRepeatMessageLabel = new Label(this,
+                By.Id("PasswordConfirm-error"), "Password repeat message");
 
             _validationErrorsLabel = new Label(this,
                 By.CssSelector(".validation-summary-errors"), "Validation errors");
@@ -96,9 +108,39 @@ namespace UiTestFramework.pages.App
             return _incorrectEmailMessageLabel.Displayed;
         }
 
+        public bool IsUsernameErrorMessageDisplayed()
+        {
+            return _incorrectUsernameMessageLabel.Displayed;
+        }
+
+        public bool IsPasswordErrorMessageDisplayed()
+        {
+            return _incorrectPasswordMessageLabel.Displayed;
+        }
+
+        public bool IsPasswordRepeatErrorMessageDisplayed()
+        {
+            return _incorrectPasswordRepeatMessageLabel.Displayed;
+        }
+
         public string GetIncorrectEmailMessageText()
         {
             return _incorrectEmailMessageLabel.Text;
+        }
+
+        public string GetIncorrectUsernameMessageText()
+        {
+            return _incorrectUsernameMessageLabel.Text;
+        }
+
+        public string GetIncorrectPasswordMessageText()
+        {
+            return _incorrectPasswordMessageLabel.Text;
+        }
+
+        public string GetIncorrectPasswordRepeatMessageText()
+        {
+            return _incorrectPasswordRepeatMessageLabel.Text;
         }
 
         public string GetValidationErrorsText()

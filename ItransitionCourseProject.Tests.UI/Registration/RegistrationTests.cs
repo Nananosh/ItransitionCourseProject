@@ -83,5 +83,92 @@ namespace ItransitionCourseProject.Tests.UI.Registration
                         $"Validation errors: {actualValidationErrors}");
                 });
         }
+
+        [Test]
+        [Category("Negative")]
+        public void TryToRegisterAccountWithInvalidNameTest()
+        {
+            var user = UserDataFactory.GetRandomUser();
+            user.Name += RandomStringFactory.GetRandomCharFromString("~!@#$%^&*()_+|}?\"',. ");
+
+            ThreadLocalBrowserManager.GetBrowser()
+                .OpenPage<MainPage>()
+                .NavigationBar.ClickRegisterLink()
+                .EnterEmail(user.Email)
+                .EnterUsername(user.Name)
+                .EnterPassword(user.Password)
+                .EnterPasswordRepeat(user.Password)
+                .ClickRegisterButton<RegistrationPage>()
+                .Do(page =>
+                {
+                    var expectedValidationError = $"Username '{user.Name}' is invalid, " +
+                                                  "can only contain letters or digits.";
+                    var actualValidationErrors = page.GetValidationErrorsText();
+                    Assert.True(actualValidationErrors.Contains(expectedValidationError),
+                        $"There is no validation error with text {expectedValidationError}. " +
+                        $"Validation errors: {actualValidationErrors}");
+                });
+        }
+
+        [Test]
+        [Category("Negative")]
+        public void TryToRegisterAccountWithInvalidPasswordTest()
+        {
+            var user = UserDataFactory.GetRandomUser();
+            user.Password = "12345";
+
+            ThreadLocalBrowserManager.GetBrowser()
+                .OpenPage<MainPage>()
+                .NavigationBar.ClickRegisterLink()
+                .EnterEmail(user.Email)
+                .EnterUsername(user.Name)
+                .EnterPassword(user.Password)
+                .EnterPasswordRepeat(user.Password)
+                .ClickRegisterButton<RegistrationPage>()
+                .Do(page =>
+                {
+                    var expectedValidationError = "Passwords must be at least 6 characters.\n" +
+                                                  "Passwords must have at least one non alphanumeric character.\n" +
+                                                  "Passwords must have at least one lowercase ('a'-'z').\n" +
+                                                  "Passwords must have at least one uppercase ('A'-'Z').";
+                    var actualValidationErrors = page.GetValidationErrorsText().Replace("\r\n", "\n");
+                    Assert.True(actualValidationErrors.Contains(expectedValidationError),
+                        $"There is no validation error with text '{expectedValidationError}'. " +
+                        $"Validation errors: '{actualValidationErrors}'");
+                });
+        }
+
+        [Test]
+        [Category("Negative")]
+        public void RequiredFieldsTest()
+        {
+            ThreadLocalBrowserManager.GetBrowser()
+                .OpenPage<MainPage>()
+                .NavigationBar.ClickRegisterLink()
+                .ClickRegisterButton<RegistrationPage>()
+                .Do(page =>
+                {
+                    Assert.Multiple(() =>
+                    {
+                        Assert.True(page.IsEmailErrorMessageDisplayed(), "Email required error isn't displayed");
+                        Assert.AreEqual("The Email field is required.", page.GetIncorrectEmailMessageText(),
+                            "Email required error has incorrect text");
+
+                        Assert.True(page.IsUsernameErrorMessageDisplayed(), "Username required error isn't displayed");
+                        Assert.AreEqual("The Username field is required.", page.GetIncorrectUsernameMessageText(),
+                            "Username required error has incorrect text");
+
+                        Assert.True(page.IsEmailErrorMessageDisplayed(), "Password required error isn't displayed");
+                        Assert.AreEqual("The Password field is required.", page.GetIncorrectPasswordMessageText(),
+                            "Password required error has incorrect text");
+
+                        Assert.True(page.IsEmailErrorMessageDisplayed(),
+                            "Password repeat required error isn't displayed");
+                        Assert.AreEqual("The Repeat the password field is required.",
+                            page.GetIncorrectPasswordRepeatMessageText(),
+                            "Password repeat required error has incorrect text");
+                    });
+                });
+        }
     }
 }
