@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using UiTestFramework.elements.interfaces;
 using UiTestFramework.exceptions;
 using UiTestFramework.pages.Base;
+
 namespace UiTestFramework.elements
 {
     public abstract class BaseElement<TElement> : IClickable<TElement>, IContainingText
@@ -16,6 +17,8 @@ namespace UiTestFramework.elements
             Locator = locator;
             Name = name;
         }
+
+        public bool Displayed => GetWebElement().Displayed;
 
         private bool ShouldBeDisplayed { get; set; }
         private IPage ParentPage { get; }
@@ -43,10 +46,7 @@ namespace UiTestFramework.elements
             throw new NotImplementedException();
         }
 
-        public string GetText()
-        {
-            return GetWebElement().Text;
-        }
+        public string Text => GetWebElement().Text;
 
         protected IWebElement GetWebElement()
         {

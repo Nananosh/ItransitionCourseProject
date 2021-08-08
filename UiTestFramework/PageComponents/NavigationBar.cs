@@ -25,6 +25,8 @@ namespace UiTestFramework.PageComponents
                 By.XPath(".//a[@href='/Account/Register' and text()='Register']"), "Register");
         }
 
+        public string Title => _titleLabel.Text;
+
         public override By GetRootLocator()
         {
             return By.CssSelector("nav.navbar");
@@ -40,17 +42,12 @@ namespace UiTestFramework.PageComponents
             throw new NotImplementedException();
         }
 
-        public string GetTitle()
-        {
-            return _titleLabel.GetText();
-        }
-
         public object ClickLoginLink()
         {
             _loginLink.Click();
             return null;
         }
-        
+
         public RegistrationPage ClickRegisterLink()
         {
             _registerLink.Click();

@@ -2,6 +2,6 @@
 {
     public interface IContainingText
     {
-        string GetText();
+        string Text { get; }
     }
 }

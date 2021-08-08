@@ -1,10 +1,11 @@
 using OpenQA.Selenium;
 using UiTestFramework.browser;
 using UiTestFramework.elements.plain;
+using UiTestFramework.pages.Base;
 
 namespace UiTestFramework.pages
 {
-    public class GooglePage : Base.BasePage<GooglePage>
+    public class GooglePage : BasePage<GooglePage>
     {
         private readonly Button _searchButton;
         private readonly Input _searchInput;

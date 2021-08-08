@@ -1,8 +1,8 @@
 ﻿using OpenQA.Selenium;
 using UiTestFramework.browser;
 using UiTestFramework.PageComponents;
-using static UiTestFramework.Properties.TestProperties;
 using UiTestFramework.pages.Base;
+using static UiTestFramework.Properties.TestProperties;
 
 namespace UiTestFramework.pages.App
 {
@@ -14,7 +14,7 @@ namespace UiTestFramework.pages.App
         }
 
         public NavigationBar NavigationBar { get; }
-        
+
         public override By GetRootLocator()
         {
             return By.CssSelector(".container *[role=main]");

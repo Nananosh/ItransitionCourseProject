@@ -9,10 +9,13 @@ namespace UiTestFramework.pages.App
     public class RegistrationPage : BasePage<RegistrationPage>
     {
         private readonly Input _emailInput;
-        private readonly Input _usernameInput;
+
+        private readonly Label _incorrectEmailMessageLabel;
         private readonly Input _passwordInput;
         private readonly Input _passwordRepeatInput;
+
         private readonly Button _registerButton;
+        private readonly Input _usernameInput;
 
         public RegistrationPage(Browser browser) : base(browser)
         {
@@ -30,13 +33,16 @@ namespace UiTestFramework.pages.App
 
             _registerButton = new Button(this,
                 By.XPath("//*[@action='/Account/Register']//*[@type='submit']"), "Register");
+
+            _incorrectEmailMessageLabel = new Label(this,
+                By.Id("Email-error"), "Email error message");
         }
 
         public override By GetRootLocator()
         {
             return By.XPath("//*[contains(@class,'container')]//*[@role='main'][//h2[text()='Registration']]");
         }
-        
+
         public override string GetPageUrl()
         {
             return TestProperties.RegistrationPageUrl;
@@ -64,7 +70,7 @@ namespace UiTestFramework.pages.App
             _passwordInput.SendKeys(password);
             return this;
         }
-        
+
         public RegistrationPage EnterPasswordRepeat(string passwordRepeat)
         {
             _passwordRepeatInput.SendKeys(passwordRepeat);
@@ -74,7 +80,23 @@ namespace UiTestFramework.pages.App
         public MainPage ClickRegisterButton()
         {
             _registerButton.Click();
-            return new MainPage(Browser);
+            return Browser.OpenPage<MainPage>();
+        }
+
+        public T ClickRegisterButton<T>() where T : BasePage<T>
+        {
+            _registerButton.Click();
+            return Browser.OpenPage<T>();
+        }
+
+        public bool IsEmailErrorMessageDisplayed()
+        {
+            return _incorrectEmailMessageLabel.Displayed;
+        }
+
+        public string GetIncorrectEmailMessageText()
+        {
+            return _incorrectEmailMessageLabel.Text;
         }
     }
 }
