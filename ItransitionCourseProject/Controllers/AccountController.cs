@@ -66,20 +66,26 @@ namespace ItransitionCourseProject.Controllers
 
             var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider,
                 info.ProviderKey, false, true);
+            if (signInResult.Succeeded)
+            {
+                await SetLastLoginDateToUser(new LoginViewModel()
+                {
+                    UserName = info.Principal.FindFirstValue(ClaimTypes.Name)
+                });
 
-            if (signInResult.Succeeded) return LocalRedirect(returnUrl);
+                return LocalRedirect(returnUrl);
+            }
 
             var email = info.Principal.FindFirstValue(ClaimTypes.Email);
 
             if (email != null)
             {
                 var user = await _userManager.FindByEmailAsync(email);
-
                 if (user == null)
                 {
                     user = new User
                     {
-                        UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        UserName = info.Principal.FindFirstValue(ClaimTypes.Name),
                         Email = info.Principal.FindFirstValue(ClaimTypes.Email),
                         LastLoginDate = DateTime.Now,
                         RegistrationDate = DateTime.Now
@@ -95,7 +101,7 @@ namespace ItransitionCourseProject.Controllers
             }
 
             ViewBag.ErrorTitle = $"Email claim not received from: {info.LoginProvider}";
-            ViewBag.ErrorMessage = "Please contact support on nananosh2002@gmail.com@gmail.com";
+            ViewBag.ErrorMessage = "Please contact support on nananosh2002@gmail.com";
 
             return View("Error");
         }
@@ -149,7 +155,7 @@ namespace ItransitionCourseProject.Controllers
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                         return Redirect(model.ReturnUrl);
 
-                    SetLastLoginDateToUser(model);
+                    await SetLastLoginDateToUser(model);
                     await _database.SaveChangesAsync();
                     return RedirectToAction("Index", "Home");
                 }
@@ -206,20 +212,14 @@ namespace ItransitionCourseProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [AcceptVerbs("Get", "Post")]
-        public bool CheckEmail(string email)
-        {
-            if (_database.Users.Any(user => user.Email == email)) return false;
-            return true;
-        }
-
-        private void SetLastLoginDateToUser(LoginViewModel model)
+        private async Task SetLastLoginDateToUser(LoginViewModel model)
         {
             var user = _database.Users.FirstOrDefault(u => u.UserName == model.UserName);
             if (user != null)
             {
                 user.LastLoginDate = DateTime.Now;
                 _database.Entry(user).State = EntityState.Modified;
+                await _database.SaveChangesAsync();
             }
         }
     }

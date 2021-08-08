@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
 using ItransitionCourseProject.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ItransitionCourseProject.Controllers
 {
@@ -16,22 +17,33 @@ namespace ItransitionCourseProject.Controllers
             _database = context;
         }
 
-        [AcceptVerbs("Get", "Post")]
-        public bool CheckTitle(string collectionTitle)
+        public IQueryable<string> GetAllTags()
         {
-            if (_database.Collections.Any(collection => collection.Title == collectionTitle)) return false;
-            return true;
+            return _database.Tags.Select(name => name.TagName);
         }
 
-        public List<string> GetAllTags()
+        public async Task<List<Tag>> InsertTag(string tags)
         {
-            var list = new List<string>();
-            list.Add("tag");
-            list.Add("ggg");
-            list.Add("ggwddwg");
-            list.Add("ggwddwвцййвцg");
-            list.Add("ggwddwвцйййййвцg");
-            list.Add("qdwdqwdqwwq");
+            var list = new List<Tag>();
+            foreach (var tag in tags.Split(','))
+            {
+                if (await _database.Tags.AnyAsync(t => t.TagName == tag))
+                {
+                    var t = await _database.Tags.FirstOrDefaultAsync(t => t.TagName == tag);
+                    list.Add(t);
+                }
+                else
+                {
+                    var t = new Tag
+                    {
+                        TagName = tag
+                    };
+                    await _database.AddAsync(t);
+                    await _database.SaveChangesAsync();
+                    list.Add(t);
+                }
+            }
+
             return list;
         }
 
@@ -41,8 +53,31 @@ namespace ItransitionCourseProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCollection(CollectionViewModel collection, string userId)
+        public async Task<IActionResult> CreateCollection(CollectionViewModel model, string userId)
         {
+            var user = _database.Users.FirstOrDefault(u => u.Id == userId);
+            if (ModelState.IsValid)
+            {
+                Collection collection = new Collection
+                {
+                    User = user,
+                    Title = model.Title,
+                    Image = model.Image,
+                    Description = model.Description,
+                    Tags = await InsertTag(model.Tags)
+                };
+                await _database.AddAsync(collection);
+                await _database.SaveChangesAsync();
+                return Redirect($"/Collection/Collection?id={collection.Id}");
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Collection(int id)
+        {
+            ViewBag.Collection = _database.Collections.Include(c => c.Tags).Where(c => c.Id == id);
             return View();
         }
     }
