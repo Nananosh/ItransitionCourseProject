@@ -11,7 +11,7 @@ namespace ItransitionCourseProject.Models
         public string Description { get; set; }
         public List<Like> Likes { get; set; } = new();
         public List<Comment> Comments { get; set; } = new();
-        public List<CustomField> CustomFields { get; set; } = new();
+        public List<CustomFieldsTemplate> CustomFieldsTemplates { get; set; } = new();
         public List<Tag> Tags { get; set; } = new();
     }
 }

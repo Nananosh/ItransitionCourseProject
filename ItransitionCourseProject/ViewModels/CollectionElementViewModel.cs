@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ItransitionCourseProject.ViewModels
 {
-    public class CollectionViewModel
+    public class CollectionElementViewModel
     {
-        [Required] public string UserId { get; set; }
+        [Required] public int CollectionId { get; set; }
         [Required] [Display(Name = "Title")] public string Title { get; set; }
 
         [Required] [Display(Name = "Image")] public string Image { get; set; }
@@ -18,6 +18,6 @@ namespace ItransitionCourseProject.ViewModels
 
         public string Tags { get; set; }
 
-        [Display(Name = "CustomFields")] public List<CustomFieldsTemplate> CustomFields { get; set; } = new();
+        [Display(Name = "CustomFields")] public List<CustomField> CustomFields { get; set; } = new();
     }
 }

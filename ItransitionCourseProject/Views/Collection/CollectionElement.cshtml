@@ -1,0 +1,27 @@
+﻿@model dynamic
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div>
+    <h1>@ViewBag.CollectionElement.Title</h1>
+        <h2>@ViewBag.CollectionElement.Description</h2>
+        <img src="@ViewBag.CollectionElement.Image" alt="">
+        @foreach (var tag in ViewBag.CollectionElement.Tags)
+        {
+            <h5>@tag.TagName</h5>
+        }
+        @foreach (var customField in ViewBag.CollectionElement.CustomFields)
+        {
+            <span>@customField.CustomFieldsTemplates.Name</span>
+            <h2>@customField.Value</h2>
+        }
+</div>
+</body>
+</html>

@@ -30,6 +30,8 @@
     <div class="form-group">
         <input type="hidden" id="tags" asp-for="Tags"/>
     </div>
+    <div id="customfields">
+    </div>
     <div>
         <button type="submit" class="btn btn-primary" onclick="getValueDiv()">Create</button>
     </div>
@@ -39,3 +41,14 @@
     <img src="" id="img-preview" value=""/>
 </div>
 <div id="example" class="form-control"></div>
+
+    <button class="btn" onclick="addInput()">AddCustomFields</button>
+<script>
+var x = 0;
+
+function addInput() {
+    var str = '<input class="form-control" name="CustomFields['+x+'].Name" placeholder="Enter Name">';
+    document.getElementById('customfields').innerHTML += str;
+    x++;
+}
+</script>

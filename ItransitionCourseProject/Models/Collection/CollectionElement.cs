@@ -10,5 +10,6 @@ namespace ItransitionCourseProject.Models
         public string Image { get; set; }
         public string Description { get; set; }
         public List<Tag> Tags { get; set; } = new();
+        public List<CustomField> CustomFields { get; set; } = new();
     }
 }
