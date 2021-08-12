@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
@@ -58,7 +60,7 @@ namespace ItransitionCourseProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCollection(CollectionViewModel model)
+        public async Task<IActionResult> CreateCollection(CreateCollectionViewModel model)
         {
             var user = _database.Users.FirstOrDefault(u => u.Id == model.UserId);
             if (ModelState.IsValid)
@@ -88,8 +90,10 @@ namespace ItransitionCourseProject.Controllers
                 .AsSingleQuery()
                 .Include(u => u.User)
                 .Include(c => c.Comments)
+                .Include(l => l.Likes)
                 .Where(c => c.Id == id)
-                .SingleAsync();;
+                .SingleAsync();
+
             return View();
         }
 
@@ -102,7 +106,7 @@ namespace ItransitionCourseProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCollectionElement(CollectionElementViewModel model)
+        public async Task<IActionResult> CreateCollectionElement(CreateCollectionElementViewModel model)
         {
             var collection = _database.Collections.FirstOrDefault(c => c.Id == model.CollectionId);
             foreach (var customField in model.CustomFields)
@@ -144,22 +148,59 @@ namespace ItransitionCourseProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateComment(CommentViewModel model)
+        public async Task<IActionResult> CreateComment(CollectionViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var collection  = await _database.Collections.FirstOrDefaultAsync(c => c.Id == model.CollectionId);
-                var user = await _database.Users.FirstOrDefaultAsync(u => u.Id == model.UserId);
+                var collection =
+                    await _database.Collections.FirstOrDefaultAsync(c => c.Id == model.CommentViewModel.CollectionId);
+                var user = await _database.Users.FirstOrDefaultAsync(u => u.Id == model.CommentViewModel.UserId);
                 var comment = new Comment
                 {
-                    Text = model.Text,
+                    Text = model.CommentViewModel.Text,
                     User = user,
                     Collection = collection
                 };
                 await _database.AddAsync(comment);
                 await _database.SaveChangesAsync();
             }
-            return RedirectToAction("Collection", "Collection", new { id = model.CollectionId });
-        } 
+
+            return RedirectToAction("Collection", "Collection", new { id = model.CommentViewModel.CollectionId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CollectionLike(CollectionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var collection =
+                    await _database.Collections.FirstOrDefaultAsync(c => c.Id == model.LikeViewModel.CollectionId);
+                var user = await _database.Users.FirstOrDefaultAsync(u => u.Id == model.LikeViewModel.UserId);
+                var like = new Like
+                {
+                    User = user,
+                    Collection = collection
+                };
+                await _database.AddAsync(like);
+                await _database.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Collection", "Collection", new { id = model.LikeViewModel.CollectionId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CollectionUnLike(CollectionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var like = await _database.Likes
+                    .FirstOrDefaultAsync(l =>
+                        l.Collection.Id == model.LikeViewModel.CollectionId && l.User.Id == model.LikeViewModel.UserId);
+                _database.Remove(like);
+                await _database.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Collection", "Collection", new { id = model.LikeViewModel.CollectionId });
+        }
     }
 }

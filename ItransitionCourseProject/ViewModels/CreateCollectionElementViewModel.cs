@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ItransitionCourseProject.ViewModels
 {
-    public class CollectionElementViewModel
+    public class CreateCollectionElementViewModel
     {
         [Required] public int CollectionId { get; set; }
         [Required] [Display(Name = "Title")] public string Title { get; set; }

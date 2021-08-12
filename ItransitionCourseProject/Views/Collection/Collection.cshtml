@@ -1,4 +1,4 @@
-﻿@model ItransitionCourseProject.ViewModels.CommentViewModel
+﻿@model ItransitionCourseProject.ViewModels.CollectionViewModel
 
 <div>
     @ViewBag.Collection.User.UserName
@@ -11,17 +11,38 @@
     }
 </div>
 
+
+<form class="form-group" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+    <input type="hidden" asp-for="LikeViewModel.UserId" value="@User.Claims.ElementAt(0).Value"/>
+    <input type="hidden" asp-for="LikeViewModel.CollectionId" value="@ViewBag.Collection.Id"/>
+    <div>
+        @{
+            List<Like> likes = ViewBag.Collection.Likes;
+            if (likes.Any(i => i.User.Id == User.Claims.ElementAt(0).Value))
+            {
+                <button type="submit" class="btn btn-primary" asp-action="CollectionUnLike" asp-controller="Collection">Unlike</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-primary" asp-action="CollectionLike" asp-controller="Collection">Like</button>
+            }
+        }
+    </div>
+</form>
+
+
 <form class="form-group" method="post" asp-controller="Collection" asp-action="CreateComment">
     <div asp-validation-summary="ModelOnly"></div>
-    <input type="hidden" asp-for="UserId" value="@User.Claims.ElementAt(0).Value"/>
-    <input type="hidden" asp-for="CollectionId" value="@ViewBag.Collection.Id"/>
+    <input type="hidden" asp-for="CommentViewModel.UserId" value="@User.Claims.ElementAt(0).Value"/>
+    <input type="hidden" asp-for="CommentViewModel.CollectionId" value="@ViewBag.Collection.Id"/>
     <div class="form-group">
-        <label asp-for="Text"></label>
-        <input class="form-control" asp-for="Text" placeholder="Enter Text">
-        <span asp-validation-for="Text"></span>
+        <label asp-for="CommentViewModel.Text"></label>
+        <input class="form-control" asp-for="CommentViewModel.Text" placeholder="Enter Text">
+        <span asp-validation-for="CommentViewModel.Text"></span>
     </div>
     <div>
-        <button type="submit" class="btn btn-primary" onclick="getValueDiv()">Create</button>
+        <button type="submit" class="btn btn-primary">Create</button>
     </div>
 </form>
 

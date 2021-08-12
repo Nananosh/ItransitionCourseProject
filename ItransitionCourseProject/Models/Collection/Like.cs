@@ -5,8 +5,7 @@ namespace ItransitionCourseProject.Models
     public class Like
     {
         public int Id { get; set; }
-        public int Star { get; set; }
-        public List<Collection> Collection { get; set; } = new();
+        public Collection Collection { get; set; }
         public User User { get; set; }
     }
 }
