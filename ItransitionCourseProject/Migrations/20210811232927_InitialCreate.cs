@@ -50,19 +50,6 @@ namespace ItransitionCourseProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomFields",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CustomFields", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Tags",
                 columns: table => new
                 {
@@ -204,26 +191,6 @@ namespace ItransitionCourseProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Comments_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Likes",
                 columns: table => new
                 {
@@ -290,6 +257,33 @@ namespace ItransitionCourseProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CollectionId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Comments_Collections_CollectionId",
+                        column: x => x.CollectionId,
+                        principalTable: "Collections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CustomFieldsTemplates",
                 columns: table => new
                 {
@@ -307,30 +301,6 @@ namespace ItransitionCourseProject.Migrations
                         principalTable: "Collections",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CollectionComment",
-                columns: table => new
-                {
-                    CollectionId = table.Column<int>(type: "int", nullable: false),
-                    CommentsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CollectionComment", x => new { x.CollectionId, x.CommentsId });
-                    table.ForeignKey(
-                        name: "FK_CollectionComment_Collections_CollectionId",
-                        column: x => x.CollectionId,
-                        principalTable: "Collections",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CollectionComment_Comments_CommentsId",
-                        column: x => x.CommentsId,
-                        principalTable: "Comments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -353,30 +323,6 @@ namespace ItransitionCourseProject.Migrations
                         name: "FK_CollectionLike_Likes_LikesId",
                         column: x => x.LikesId,
                         principalTable: "Likes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CollectionElementCustomField",
-                columns: table => new
-                {
-                    CollectionElementsId = table.Column<int>(type: "int", nullable: false),
-                    CustomFieldsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CollectionElementCustomField", x => new { x.CollectionElementsId, x.CustomFieldsId });
-                    table.ForeignKey(
-                        name: "FK_CollectionElementCustomField_CollectionElements_CollectionElementsId",
-                        column: x => x.CollectionElementsId,
-                        principalTable: "CollectionElements",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CollectionElementCustomField_CustomFields_CustomFieldsId",
-                        column: x => x.CustomFieldsId,
-                        principalTable: "CustomFields",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -406,27 +352,30 @@ namespace ItransitionCourseProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CustomFieldCustomFieldsTemplate",
+                name: "CustomFields",
                 columns: table => new
                 {
-                    CustomFieldsId = table.Column<int>(type: "int", nullable: false),
-                    CustomFieldsTemplatesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CollectionElementId = table.Column<int>(type: "int", nullable: true),
+                    CustomFieldsTemplatesId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CustomFieldCustomFieldsTemplate", x => new { x.CustomFieldsId, x.CustomFieldsTemplatesId });
+                    table.PrimaryKey("PK_CustomFields", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CustomFieldCustomFieldsTemplate_CustomFields_CustomFieldsId",
-                        column: x => x.CustomFieldsId,
-                        principalTable: "CustomFields",
+                        name: "FK_CustomFields_CollectionElements_CollectionElementId",
+                        column: x => x.CollectionElementId,
+                        principalTable: "CollectionElements",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_CustomFieldCustomFieldsTemplate_CustomFieldsTemplates_CustomFieldsTemplatesId",
+                        name: "FK_CustomFields_CustomFieldsTemplates_CustomFieldsTemplatesId",
                         column: x => x.CustomFieldsTemplatesId,
                         principalTable: "CustomFieldsTemplates",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -469,16 +418,6 @@ namespace ItransitionCourseProject.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CollectionComment_CommentsId",
-                table: "CollectionComment",
-                column: "CommentsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CollectionElementCustomField_CustomFieldsId",
-                table: "CollectionElementCustomField",
-                column: "CustomFieldsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CollectionElements_CollectionId",
                 table: "CollectionElements",
                 column: "CollectionId");
@@ -504,13 +443,23 @@ namespace ItransitionCourseProject.Migrations
                 column: "TagsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_CollectionId",
+                table: "Comments",
+                column: "CollectionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Comments_UserId",
                 table: "Comments",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CustomFieldCustomFieldsTemplate_CustomFieldsTemplatesId",
-                table: "CustomFieldCustomFieldsTemplate",
+                name: "IX_CustomFields_CollectionElementId",
+                table: "CustomFields",
+                column: "CollectionElementId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CustomFields_CustomFieldsTemplatesId",
+                table: "CustomFields",
                 column: "CustomFieldsTemplatesId");
 
             migrationBuilder.CreateIndex(
@@ -542,12 +491,6 @@ namespace ItransitionCourseProject.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CollectionComment");
-
-            migrationBuilder.DropTable(
-                name: "CollectionElementCustomField");
-
-            migrationBuilder.DropTable(
                 name: "CollectionElementTag");
 
             migrationBuilder.DropTable(
@@ -557,16 +500,13 @@ namespace ItransitionCourseProject.Migrations
                 name: "CollectionTag");
 
             migrationBuilder.DropTable(
-                name: "CustomFieldCustomFieldsTemplate");
-
-            migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "CollectionElements");
+                name: "CustomFields");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Likes");
@@ -575,7 +515,7 @@ namespace ItransitionCourseProject.Migrations
                 name: "Tags");
 
             migrationBuilder.DropTable(
-                name: "CustomFields");
+                name: "CollectionElements");
 
             migrationBuilder.DropTable(
                 name: "CustomFieldsTemplates");

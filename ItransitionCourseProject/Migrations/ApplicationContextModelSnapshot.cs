@@ -19,21 +19,6 @@ namespace ItransitionCourseProject.Migrations
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CollectionComment", b =>
-                {
-                    b.Property<int>("CollectionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CommentsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CollectionId", "CommentsId");
-
-                    b.HasIndex("CommentsId");
-
-                    b.ToTable("CollectionComment");
-                });
-
             modelBuilder.Entity("CollectionElementTag", b =>
                 {
                     b.Property<int>("CollectionElementsId")
@@ -138,6 +123,9 @@ namespace ItransitionCourseProject.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CollectionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
@@ -145,6 +133,8 @@ namespace ItransitionCourseProject.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CollectionId");
 
                     b.HasIndex("UserId");
 
@@ -436,21 +426,6 @@ namespace ItransitionCourseProject.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CollectionComment", b =>
-                {
-                    b.HasOne("ItransitionCourseProject.Models.Collection", null)
-                        .WithMany()
-                        .HasForeignKey("CollectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ItransitionCourseProject.Models.Comment", null)
-                        .WithMany()
-                        .HasForeignKey("CommentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CollectionElementTag", b =>
                 {
                     b.HasOne("ItransitionCourseProject.Models.CollectionElement", null)
@@ -516,9 +491,15 @@ namespace ItransitionCourseProject.Migrations
 
             modelBuilder.Entity("ItransitionCourseProject.Models.Comment", b =>
                 {
+                    b.HasOne("ItransitionCourseProject.Models.Collection", "Collection")
+                        .WithMany("Comments")
+                        .HasForeignKey("CollectionId");
+
                     b.HasOne("ItransitionCourseProject.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Collection");
 
                     b.Navigation("User");
                 });
@@ -609,6 +590,8 @@ namespace ItransitionCourseProject.Migrations
 
             modelBuilder.Entity("ItransitionCourseProject.Models.Collection", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("CustomFieldsTemplates");
                 });
 

@@ -81,10 +81,15 @@ namespace ItransitionCourseProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult Collection(int id)
+        public async Task<IActionResult> Collection(int id)
         {
-            ViewBag.Collection = _database.Collections.Include(t => t.Tags)
-                .Include(u => u.User).Where(c => c.Id == id);
+            ViewBag.Collection = await _database.Collections
+                .Include(t => t.Tags)
+                .AsSingleQuery()
+                .Include(u => u.User)
+                .Include(c => c.Comments)
+                .Where(c => c.Id == id)
+                .SingleAsync();;
             return View();
         }
 
@@ -119,7 +124,7 @@ namespace ItransitionCourseProject.Controllers
                 };
                 await _database.AddAsync(collectionElement);
                 await _database.SaveChangesAsync();
-                return RedirectToAction("Collection", "Collection", new { collectionElement.Id });
+                return RedirectToAction("CollectionElement", "Collection", new { collectionElement.Id });
             }
 
             return View(model);
@@ -132,9 +137,29 @@ namespace ItransitionCourseProject.Controllers
                 .Where(c => c.Id == id)
                 .Include(c => c.CustomFields)
                 .ThenInclude(c => c.CustomFieldsTemplates)
+                .AsSingleQuery()
                 .Include(t => t.Tags)
                 .SingleAsync();
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateComment(CommentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var collection  = await _database.Collections.FirstOrDefaultAsync(c => c.Id == model.CollectionId);
+                var user = await _database.Users.FirstOrDefaultAsync(u => u.Id == model.UserId);
+                var comment = new Comment
+                {
+                    Text = model.Text,
+                    User = user,
+                    Collection = collection
+                };
+                await _database.AddAsync(comment);
+                await _database.SaveChangesAsync();
+            }
+            return RedirectToAction("Collection", "Collection", new { id = model.CollectionId });
+        } 
     }
 }

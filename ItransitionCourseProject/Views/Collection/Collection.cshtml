@@ -1,26 +1,35 @@
-﻿@model dynamic
+﻿@model ItransitionCourseProject.ViewModels.CommentViewModel
 
-
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
 <div>
-    @foreach (var collection in ViewBag.Collection)
+    @ViewBag.Collection.User.UserName
+    <h1>@ViewBag.Collection.Title</h1>
+    <h2>@ViewBag.Collection.Description</h2>
+    <img src="@ViewBag.Collection.Image" alt="">
+    @foreach (var tag in ViewBag.Collection.Tags)
     {
-        @collection.User.UserName
-        <h1>@collection.Title</h1>
-        <h2>@collection.Description</h2>
-        <img src="@collection.Image" alt="">
-        foreach (var tag in collection.Tags)
-        {
-            <h5>@tag.TagName</h5>
-        }
+        <h5>@tag.TagName</h5>
     }
 </div>
-</body>
-</html>
+
+<form class="form-group" method="post" asp-controller="Collection" asp-action="CreateComment">
+    <div asp-validation-summary="ModelOnly"></div>
+    <input type="hidden" asp-for="UserId" value="@User.Claims.ElementAt(0).Value"/>
+    <input type="hidden" asp-for="CollectionId" value="@ViewBag.Collection.Id"/>
+    <div class="form-group">
+        <label asp-for="Text"></label>
+        <input class="form-control" asp-for="Text" placeholder="Enter Text">
+        <span asp-validation-for="Text"></span>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary" onclick="getValueDiv()">Create</button>
+    </div>
+</form>
+
+
+@foreach (var comment in ViewBag.Collection.Comments)
+{
+    <br>
+    @comment.User.UserName
+    <br>
+    @comment.Text
+}
