@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ItransitionCourseProject.Models
 {
-    public class Comment
+    public class CustomFieldsTemplate
     {
         public int Id { get; set; }
-        public User User { get; set; }
-        public string Text { get; set; }
+        public string Name { get; set; }
         public Collection Collection { get; set; }
     }
 }

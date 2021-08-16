@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ItransitionCourseProject.ViewModels
+namespace ItransitionCourseProject.ViewModels.Account
 {
     public class RegisterViewModel
     {

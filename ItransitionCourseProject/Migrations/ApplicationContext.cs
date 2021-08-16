@@ -16,5 +16,7 @@ namespace ItransitionCourseProject.Models
         public DbSet<CustomField> CustomFields { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<CustomFieldsTemplate> CustomFieldsTemplates { get; set; }
+        public DbSet<CollectionTheme> CollectionThemes { get; set; }
     }
 }

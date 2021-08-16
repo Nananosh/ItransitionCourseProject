@@ -1,4 +1,4 @@
-﻿@model ItransitionCourseProject.ViewModels.CollectionViewModel
+﻿@model ItransitionCourseProject.ViewModels.Collection.CreateCollectionViewModel
 
 <h2>Create Collection</h2>
 <form class="form-group" method="post" asp-controller="Collection" asp-action="CreateCollection" asp-route-userId="@User.Claims.ElementAt(0).Value">
@@ -8,6 +8,15 @@
         <input class="form-control" asp-for="Title" placeholder="Enter Title">
         <span asp-validation-for="Title"></span>
     </div>
+    <div class="form-group">
+          <label asp-for="Theme"></label>
+          <select asp-for="Theme.Id" class="form-control">
+            @foreach (var theme in ViewBag.Themes)
+            {
+                <option value="@theme.Id">@theme.Theme</option>
+            }
+          </select>
+        </div>
     <div class="form-group">
         <label asp-for="Description"></label>
         <input class="form-control" asp-for="Description" placeholder="Enter Description">
@@ -30,6 +39,8 @@
     <div class="form-group">
         <input type="hidden" id="tags" asp-for="Tags"/>
     </div>
+    <div id="customfields">
+    </div>
     <div>
         <button type="submit" class="btn btn-primary" onclick="getValueDiv()">Create</button>
     </div>
@@ -39,3 +50,14 @@
     <img src="" id="img-preview" value=""/>
 </div>
 <div id="example" class="form-control"></div>
+
+    <button class="btn" onclick="addInput()">AddCustomFields</button>
+<script>
+var x = 0;
+
+function addInput() {
+    var str = '<input class="form-control" name="CustomFields['+x+'].Name" placeholder="Enter Name">';
+    document.getElementById('customfields').innerHTML += str;
+    x++;
+}
+</script>

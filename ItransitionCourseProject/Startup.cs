@@ -25,7 +25,7 @@ namespace ItransitionTask4
             services.AddIdentity<User, IdentityRole>(options => {
                     options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" +
                                                              "0123456789абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМН" +
-                                                             "ОПРСТУФХЦЧШЩЪЫЬЭЮЯ ";
+                                                             "ОПРСТУФХЦЧШЩЪЫЬЭЮЯ_ ";
                     options.User.RequireUniqueEmail = true;
                 })
                 .AddEntityFrameworkStores<ApplicationContext>();
