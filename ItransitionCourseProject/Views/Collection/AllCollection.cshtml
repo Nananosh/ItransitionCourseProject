@@ -1,0 +1,13 @@
+﻿@foreach (var collection in ViewBag.Collections)
+{
+    <div>
+        @collection.User.UserName
+        <h1>@collection.Title</h1>
+        <h2>@collection.Description</h2>
+        <img src="@collection.Image" alt="">
+        @foreach (var tag in collection.Tags)
+        {
+            <h5>@tag.TagName</h5>
+        }
+    </div>
+}

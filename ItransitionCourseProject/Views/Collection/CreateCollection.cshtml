@@ -1,4 +1,4 @@
-﻿@model ItransitionCourseProject.ViewModels.CreateCollectionViewModel
+﻿@model ItransitionCourseProject.ViewModels.Collection.CreateCollectionViewModel
 
 <h2>Create Collection</h2>
 <form class="form-group" method="post" asp-controller="Collection" asp-action="CreateCollection" asp-route-userId="@User.Claims.ElementAt(0).Value">
@@ -8,6 +8,15 @@
         <input class="form-control" asp-for="Title" placeholder="Enter Title">
         <span asp-validation-for="Title"></span>
     </div>
+    <div class="form-group">
+          <label asp-for="Theme"></label>
+          <select asp-for="Theme.Id" class="form-control">
+            @foreach (var theme in ViewBag.Themes)
+            {
+                <option value="@theme.Id">@theme.Theme</option>
+            }
+          </select>
+        </div>
     <div class="form-group">
         <label asp-for="Description"></label>
         <input class="form-control" asp-for="Description" placeholder="Enter Description">

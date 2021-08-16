@@ -56,6 +56,9 @@ namespace ItransitionCourseProject.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CollectionThemeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -69,6 +72,8 @@ namespace ItransitionCourseProject.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CollectionThemeId");
 
                     b.HasIndex("UserId");
 
@@ -99,6 +104,21 @@ namespace ItransitionCourseProject.Migrations
                     b.HasIndex("CollectionId");
 
                     b.ToTable("CollectionElements");
+                });
+
+            modelBuilder.Entity("ItransitionCourseProject.Models.CollectionTheme", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Theme")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CollectionThemes");
                 });
 
             modelBuilder.Entity("ItransitionCourseProject.Models.Comment", b =>
@@ -445,9 +465,15 @@ namespace ItransitionCourseProject.Migrations
 
             modelBuilder.Entity("ItransitionCourseProject.Models.Collection", b =>
                 {
+                    b.HasOne("ItransitionCourseProject.Models.CollectionTheme", "CollectionTheme")
+                        .WithMany("Collection")
+                        .HasForeignKey("CollectionThemeId");
+
                     b.HasOne("ItransitionCourseProject.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("CollectionTheme");
 
                     b.Navigation("User");
                 });
@@ -578,6 +604,11 @@ namespace ItransitionCourseProject.Migrations
             modelBuilder.Entity("ItransitionCourseProject.Models.CollectionElement", b =>
                 {
                     b.Navigation("CustomFields");
+                });
+
+            modelBuilder.Entity("ItransitionCourseProject.Models.CollectionTheme", b =>
+                {
+                    b.Navigation("Collection");
                 });
 
             modelBuilder.Entity("ItransitionCourseProject.Models.User", b =>

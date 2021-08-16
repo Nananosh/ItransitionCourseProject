@@ -1,4 +1,5 @@
-﻿<div class="container-fluid mr-2 ml-1 m-auto">
+﻿@model ItransitionCourseProject.ViewModels.Search.SearchViewModel
+<div class="container-fluid mr-2 ml-1 m-auto">
     <div class="col-xl">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="max-height:400px;">
               <ol class="carousel-indicators">
@@ -8,13 +9,13 @@
               </ol>
               <div class="carousel-inner" style="max-height:400px;">
                 <div class="carousel-item active">
-                  <img class="d-block w-100" src="https://www.circuitzandvoort.nl/wp-content/uploads/2020/01/0524-SupercarsClassics-hero-1820x400-Maixe-gray.jpg" alt="Первый слайд">
+                  <img class="d-block w-100" src="https://res.cloudinary.com/nananosh/image/upload/v1629144757/SiteImage%20/for_nikita2_rehlnq.png" alt="Первый слайд">
                 </div>
                 <div class="carousel-item">
-                  <img class="d-block w-100" src="https://bpsoftware.net/wp-content/uploads/2019/05/gold-partner-header-1820x400.png" alt="Второй слайд">
+                  <img class="d-block w-100" src="https://res.cloudinary.com/nananosh/image/upload/v1629144757/SiteImage%20/for_nikita1_nutkt1.png" alt="Второй слайд">
                 </div>
                 <div class="carousel-item">
-                  <img class="d-block w-100" src="data:image/png;base64,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" alt="Третий слайд">
+                  <img class="d-block w-100" src="https://res.cloudinary.com/nananosh/image/upload/v1629149076/SiteImage%20/for_nikita_remaster_pekaif.png" alt="Третий слайд">
                 </div>
               </div>
               <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -30,7 +31,10 @@
 </div>
 
 
-
+<form method="get" asp-controller="Search" asp-action="SearchResult">
+  <input type="search" asp-for="Query">
+  <input type="submit">
+</form>
 
 
 

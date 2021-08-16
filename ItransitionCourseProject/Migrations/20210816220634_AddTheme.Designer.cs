@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItransitionCourseProject.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210811232927_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210816220634_AddTheme")]
+    partial class AddTheme
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,21 +36,6 @@ namespace ItransitionCourseProject.Migrations
                     b.ToTable("CollectionElementTag");
                 });
 
-            modelBuilder.Entity("CollectionLike", b =>
-                {
-                    b.Property<int>("CollectionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LikesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CollectionId", "LikesId");
-
-                    b.HasIndex("LikesId");
-
-                    b.ToTable("CollectionLike");
-                });
-
             modelBuilder.Entity("CollectionTag", b =>
                 {
                     b.Property<int>("CollectionId")
@@ -73,6 +58,9 @@ namespace ItransitionCourseProject.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("CollectionThemeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -86,6 +74,8 @@ namespace ItransitionCourseProject.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CollectionThemeId");
 
                     b.HasIndex("UserId");
 
@@ -116,6 +106,21 @@ namespace ItransitionCourseProject.Migrations
                     b.HasIndex("CollectionId");
 
                     b.ToTable("CollectionElements");
+                });
+
+            modelBuilder.Entity("ItransitionCourseProject.Models.CollectionTheme", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Theme")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CollectionThemes");
                 });
 
             modelBuilder.Entity("ItransitionCourseProject.Models.Comment", b =>
@@ -195,13 +200,15 @@ namespace ItransitionCourseProject.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Star")
+                    b.Property<int?>("CollectionId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CollectionId");
 
                     b.HasIndex("UserId");
 
@@ -443,21 +450,6 @@ namespace ItransitionCourseProject.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CollectionLike", b =>
-                {
-                    b.HasOne("ItransitionCourseProject.Models.Collection", null)
-                        .WithMany()
-                        .HasForeignKey("CollectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ItransitionCourseProject.Models.Like", null)
-                        .WithMany()
-                        .HasForeignKey("LikesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CollectionTag", b =>
                 {
                     b.HasOne("ItransitionCourseProject.Models.Collection", null)
@@ -475,9 +467,15 @@ namespace ItransitionCourseProject.Migrations
 
             modelBuilder.Entity("ItransitionCourseProject.Models.Collection", b =>
                 {
+                    b.HasOne("ItransitionCourseProject.Models.CollectionTheme", "CollectionTheme")
+                        .WithMany("Collection")
+                        .HasForeignKey("CollectionThemeId");
+
                     b.HasOne("ItransitionCourseProject.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("CollectionTheme");
 
                     b.Navigation("User");
                 });
@@ -532,9 +530,15 @@ namespace ItransitionCourseProject.Migrations
 
             modelBuilder.Entity("ItransitionCourseProject.Models.Like", b =>
                 {
+                    b.HasOne("ItransitionCourseProject.Models.Collection", "Collection")
+                        .WithMany("Likes")
+                        .HasForeignKey("CollectionId");
+
                     b.HasOne("ItransitionCourseProject.Models.User", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserId");
+
+                    b.Navigation("Collection");
 
                     b.Navigation("User");
                 });
@@ -595,11 +599,18 @@ namespace ItransitionCourseProject.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("CustomFieldsTemplates");
+
+                    b.Navigation("Likes");
                 });
 
             modelBuilder.Entity("ItransitionCourseProject.Models.CollectionElement", b =>
                 {
                     b.Navigation("CustomFields");
+                });
+
+            modelBuilder.Entity("ItransitionCourseProject.Models.CollectionTheme", b =>
+                {
+                    b.Navigation("Collection");
                 });
 
             modelBuilder.Entity("ItransitionCourseProject.Models.User", b =>

@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Korzh.EasyQuery.Linq" Version="7.1.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="5.0.8" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="5.0.8" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.8" />

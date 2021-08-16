@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
-using ItransitionCourseProject.ViewModels;
+using ItransitionCourseProject.ViewModels.Collection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ItransitionCourseProject.Controllers
+namespace ItransitionCourseProject.Controllers.Collection
 {
     public class CollectionController : Controller
     {
@@ -54,25 +52,28 @@ namespace ItransitionCourseProject.Controllers
             return list;
         }
 
-        public IActionResult CreateCollection()
+        public async Task<IActionResult> CreateCollection()
         {
+            ViewBag.Themes = await _database.CollectionThemes.ToListAsync();
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateCollection(CreateCollectionViewModel model)
         {
-            var user = _database.Users.FirstOrDefault(u => u.Id == model.UserId);
+            var user = await _database.Users.FirstOrDefaultAsync(u => u.Id == model.UserId);
+            var theme = await _database.CollectionThemes.FirstOrDefaultAsync(t => t.Id == model.Theme.Id);
             if (ModelState.IsValid)
             {
-                Collection collection = new Collection
+                Models.Collection collection = new Models.Collection
                 {
                     User = user,
                     Title = model.Title,
                     Image = model.Image,
                     Description = model.Description,
                     Tags = await InsertTag(model.Tags),
-                    CustomFieldsTemplates = model.CustomFields
+                    CustomFieldsTemplates = model.CustomFields,
+                    CollectionTheme = theme
                 };
                 await _database.AddAsync(collection);
                 await _database.SaveChangesAsync();
@@ -91,6 +92,7 @@ namespace ItransitionCourseProject.Controllers
                 .Include(u => u.User)
                 .Include(c => c.Comments)
                 .Include(l => l.Likes)
+                .Include(t => t.CollectionTheme)
                 .Where(c => c.Id == id)
                 .SingleAsync();
 
@@ -201,6 +203,15 @@ namespace ItransitionCourseProject.Controllers
             }
 
             return RedirectToAction("Collection", "Collection", new { id = model.LikeViewModel.CollectionId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AllCollection(List<Models.Collection> collectionsList)
+        {
+            ViewBag.Collections = await _database.Collections
+                    .Include(t => t.Tags)
+                    .ToListAsync();
+            return View();
         }
     }
 }

@@ -191,26 +191,6 @@ namespace ItransitionCourseProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Likes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Star = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Likes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Likes_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CollectionElements",
                 columns: table => new
                 {
@@ -304,27 +284,29 @@ namespace ItransitionCourseProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CollectionLike",
+                name: "Likes",
                 columns: table => new
                 {
-                    CollectionId = table.Column<int>(type: "int", nullable: false),
-                    LikesId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CollectionId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CollectionLike", x => new { x.CollectionId, x.LikesId });
+                    table.PrimaryKey("PK_Likes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CollectionLike_Collections_CollectionId",
+                        name: "FK_Likes_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Likes_Collections_CollectionId",
                         column: x => x.CollectionId,
                         principalTable: "Collections",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CollectionLike_Likes_LikesId",
-                        column: x => x.LikesId,
-                        principalTable: "Likes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -428,11 +410,6 @@ namespace ItransitionCourseProject.Migrations
                 column: "TagsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CollectionLike_LikesId",
-                table: "CollectionLike",
-                column: "LikesId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Collections_UserId",
                 table: "Collections",
                 column: "UserId");
@@ -468,6 +445,11 @@ namespace ItransitionCourseProject.Migrations
                 column: "CollectionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Likes_CollectionId",
+                table: "Likes",
+                column: "CollectionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Likes_UserId",
                 table: "Likes",
                 column: "UserId");
@@ -494,9 +476,6 @@ namespace ItransitionCourseProject.Migrations
                 name: "CollectionElementTag");
 
             migrationBuilder.DropTable(
-                name: "CollectionLike");
-
-            migrationBuilder.DropTable(
                 name: "CollectionTag");
 
             migrationBuilder.DropTable(
@@ -506,10 +485,10 @@ namespace ItransitionCourseProject.Migrations
                 name: "CustomFields");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Likes");
 
             migrationBuilder.DropTable(
-                name: "Likes");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Tags");

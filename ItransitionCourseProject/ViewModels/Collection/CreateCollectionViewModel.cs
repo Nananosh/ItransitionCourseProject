@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ItransitionCourseProject.Models;
-using Microsoft.AspNetCore.Mvc;
 
-namespace ItransitionCourseProject.ViewModels
+namespace ItransitionCourseProject.ViewModels.Collection
 {
     public class CreateCollectionViewModel
     {
@@ -17,6 +16,7 @@ namespace ItransitionCourseProject.ViewModels
         public string Description { get; set; }
 
         public string Tags { get; set; }
+        public CollectionTheme Theme { get; set; }
 
         [Display(Name = "CustomFields")] public List<CustomFieldsTemplate> CustomFields { get; set; } = new();
     }

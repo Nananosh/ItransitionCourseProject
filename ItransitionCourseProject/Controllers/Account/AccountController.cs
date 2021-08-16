@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
 using ItransitionCourseProject.ViewModels;
+using ItransitionCourseProject.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -137,7 +138,7 @@ namespace ItransitionCourseProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login(string returnUrl = null)
+        public IActionResult Login(string returnUrl = null)
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }

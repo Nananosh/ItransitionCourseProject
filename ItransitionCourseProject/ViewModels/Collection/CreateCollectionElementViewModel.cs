@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ItransitionCourseProject.Models;
-using Microsoft.AspNetCore.Mvc;
 
-namespace ItransitionCourseProject.ViewModels
+namespace ItransitionCourseProject.ViewModels.Collection
 {
     public class CreateCollectionElementViewModel
     {

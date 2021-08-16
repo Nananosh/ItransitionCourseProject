@@ -1,4 +1,4 @@
-﻿namespace ItransitionCourseProject.ViewModels
+﻿namespace ItransitionCourseProject.ViewModels.Collection
 {
     public class CollectionViewModel
     {
