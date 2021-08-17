@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="~/icon.png"/>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"]</title>
@@ -20,20 +21,32 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1 justify-content-start">
+                    <li class="nav-item">
+                            <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" asp-action="AllCollection" asp-controller="Collection">Collections</a>
+                          </li>
+                </ul>
                 <ul class="navbar-nav flex-grow-1 justify-content-end">
+                    <li class="nav-item mr-3 pt-1">
+                        <form method="get" asp-controller="Search" asp-action="SearchResult" class="form-inline my-2 my-lg-0">
+                          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Query">
+                          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                    </li>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
                                role="button" data-toggle="dropdown" aria-haspopup="true"
                                aria-expanded="false">
-                                @User.Identity.Name
+                                <img class="rounded-circle" src="https://img.icons8.com/material-outlined/48/000000/user--v1.png" alt="avatar" style="max-height: 30px; max-width: 30px"/>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item">@User.Claims.ElementAt(1).Value </a>
                                 <div class="dropdown-divider"></div>
-                                @* <form asp-controller="Account" asp-action="Logout"> *@
-                                @*     <input class="dropdown-item nav-link" type="submit" value="Exit"/> *@
-                                @* </form> *@
                                 <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Exit</a>
                             </div>
                         </li>
@@ -41,10 +54,7 @@
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
+                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Sign In</a>
                         </li>
                     }
                 </ul>
@@ -74,11 +84,7 @@ function getValueDiv(){
     document.getElementById('tags').value = tags_val;
 }
 </script>
-@* <div class="container"> *@
-    @* <main role="main" class="pb-3"> *@
-        @RenderBody()
-    @* </main> *@
-@* </div> *@
+@RenderBody()
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script>
         $('#checkAll').change(function(){
@@ -92,12 +98,17 @@ function getValueDiv(){
               $('#checkAll').prop('checked',false);  
             }
             });
+        
+        $(document).ready(function (){
+            bsCustomFileInput.init();
+        })
 </script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="~/lib/Multi-Select-Plugin-jQuery-MagicSuggest/magicsuggest.js"></script>
+<script src="~/lib/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", false)
 </body>

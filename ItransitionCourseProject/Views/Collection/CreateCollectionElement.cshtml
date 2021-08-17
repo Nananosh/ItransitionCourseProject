@@ -1,52 +1,64 @@
 ﻿@model ItransitionCourseProject.ViewModels.Collection.CreateCollectionElementViewModel
 
-<h2>Create Collection</h2>
-<form class="form-group" method="post" asp-controller="Collection" asp-action="CreateCollectionElement">
-        <div asp-validation-summary="ModelOnly"></div>
-        <input type="hidden" asp-for="CollectionId" value="@ViewBag.Collection.Id">
-        <div class="form-group">
-            <label asp-for="Title"></label>
-            <input class="form-control" asp-for="Title" placeholder="Enter Title">
-            <span asp-validation-for="Title"></span>
+@{
+    ViewData["Title"] = "Create Collection Element";
+}
+<div id="signIn" class="container p-xl-3">
+    <div class="row justify-content-lg-center">
+        <div class="col-lg-8 text-lg-center pb-4">
+            <a asp-action="Index" asp-controller="Home" style="text-decoration: none; color: black">
+                <h1 style="font-family: 'Abril Fatface', cursive;">Plushkin</h1>
+            </a>
+            <h2 class="h4">Create your collection element</h2>
         </div>
-        <div class="form-group">
-            <label asp-for="Description"></label>
-            <input class="form-control" asp-for="Description" placeholder="Enter Description">
-            <span asp-validation-for="Description"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Image"></label>
-            <div class="container p-y-1">
-                <div class="row m-b-1">
-                    <div class="col-sm-6 offset-sm-3">
-                        <div class="form-group inputDnD">
-                            <label class="sr-only" asp-for="Image"></label>
-                            <input type="file" class="form-control-file text-primary font-weight-bold" id="file-upload" accept="image/*" data-title="Drag and drop a file">
-                            <input type="hidden" id="file-upload-url" asp-for="Image"/>
-                        </div>
+    </div>
+    <br>
+    <div class="row justify-content-lg-center">
+        <div class="col-lg-4 shadow pt-3 pb-1 mb-2 bg-white rounded">
+            <form class="form-group" method="post" asp-controller="Collection" asp-action="CreateCollectionElement" asp-route-userId="@User.Claims.ElementAt(0).Value">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="CollectionId" value="@ViewBag.Collection.Id">
+                <div class="form-group">
+                    <label asp-for="Title"></label>
+                    <input class="form-control shadow-sm bg-white rounded" asp-for="Title" placeholder="Enter Title">
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    @for (var customField = 0; customField < ViewBag.Collection.CustomFieldsTemplates.Count; customField++)
+                                {
+                                    <input type="hidden" asp-for='CustomFields[customField].CustomFieldsTemplates.Id' value="@ViewBag.Collection.CustomFieldsTemplates[customField].Id">
+                                    <label>@ViewBag.Collection.CustomFieldsTemplates[customField].Name</label>
+                                    <input class="form-control shadow-sm bg-white rounded mb-3" name="CustomFields[@customField].Value" placeholder="Enter @ViewBag.Collection.CustomFieldsTemplates[customField].Name">
+                                }
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <input class="form-control shadow-sm bg-white rounded" asp-for="Description" placeholder="Enter Description">
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div></div>
+                <div class="form-group">
+                    <label asp-for="Image"></label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label form-control shadow-sm bg-white rounded" for="customFile">Выбрать файл</label>
+                        <input type="hidden" id="file-upload-url" asp-for="Image"/>
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                    <div class="card border-white mt-1">
+                        <img src="" id="img-preview" value=""/>
                     </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label asp-for="Tags"></label>
+                    <div id="example" class="form-control"></div>
+                    <input type="hidden" id="tags" asp-for="Tags"/>
+                     <span asp-validation-for="Tags" class="text-danger"></span>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-success shadow-sm rounded btn-block" onclick="getValueDiv()">Create</button>
+                </div>
+            </form>
         </div>
-        <div class="form-group">
-            <input type="hidden" id="tags" asp-for="Tags"/>
-        </div>
-        <div id="customfields">
-
-            @for (var customField = 0; customField < ViewBag.Collection.CustomFieldsTemplates.Count; customField++)
-            {
-                <input type="hidden" asp-for='CustomFields[customField].CustomFieldsTemplates.Id' value="@ViewBag.Collection.CustomFieldsTemplates[customField].Id">
-                <span>@ViewBag.Collection.CustomFieldsTemplates[customField].Name</span>
-                <input class="form-control" name="CustomFields[@customField].Value" placeholder="@ViewBag.Collection.CustomFieldsTemplates[customField].Name">
-            }
-
-        </div>
-        <div>
-            <button type="submit" class="btn btn-primary" onclick="getValueDiv()">Create</button>
-        </div>
-    </form>
-
-    <div class="card">
-        <img src="" id="img-preview" value=""/>
     </div>
-    <div id="example" class="form-control"></div>
+</div>

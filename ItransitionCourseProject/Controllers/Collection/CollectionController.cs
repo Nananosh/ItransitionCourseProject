@@ -79,7 +79,6 @@ namespace ItransitionCourseProject.Controllers.Collection
                 await _database.SaveChangesAsync();
                 return RedirectToAction("Collection", "Collection", new { collection.Id });
             }
-
             return View(model);
         }
 
