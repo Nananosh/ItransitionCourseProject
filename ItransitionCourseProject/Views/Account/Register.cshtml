@@ -1,29 +1,74 @@
 ﻿@model ItransitionCourseProject.ViewModels.Account.RegisterViewModel
-<h2>Registration</h2>
-<form class="form-group" method="post" asp-controller="Account" asp-action="Register">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input class="form-control" asp-for="Email" placeholder="Enter email">
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="UserName"></label>
-        <input class="form-control" asp-for="UserName" placeholder="Enter username">
-        <span asp-validation-for="UserName"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input class="form-control" asp-for="Password" placeholder="Enter password">
-        <span asp-validation-for="Password"></span>
-    </div>
 
-    <div class="form-group">
-        <label asp-for="PasswordConfirm"></label>
-        <input class="form-control" asp-for="PasswordConfirm" placeholder="Repeat password">
-        <span asp-validation-for="PasswordConfirm"></span>
+@{
+    Layout = null;
+    ViewData["Title"] = "Register in Plushkin";
+}
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+</head>
+<br>
+<br>
+<br>
+<br>
+<div id="signIn" class="container p-xl-3">
+    <div class="row justify-content-lg-center">
+        <div class="col-lg-8 text-lg-center pb-4">
+            <a asp-action="Index" asp-controller="Home" style="text-decoration: none; color: black">
+                <h1 style="font-family: 'Abril Fatface', cursive;">Plushkin</h1>
+            </a>
+            <h2 class="h4">Register your account</h2>
+        </div>
     </div>
-    <div>
-        <button type="submit" class="btn btn-primary">Register</button>
+    <br>
+    <div class="row justify-content-lg-center">
+        <div class="col-lg-4 shadow pt-3 pb-1 mb-2 bg-white rounded">
+
+
+            <form class="form-group" method="post" asp-controller="Account" asp-action="Register">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input class="form-control form-control shadow-sm bg-white rounded" asp-for="Email" placeholder="Enter email">
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserName"></label>
+                    <input class="form-control form-control shadow-sm bg-white rounded" asp-for="UserName" placeholder="Enter username">
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input class="form-control form-control shadow-sm bg-white rounded" asp-for="Password" placeholder="Enter password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="PasswordConfirm"></label>
+                    <input class="form-control form-control shadow-sm bg-white rounded" asp-for="PasswordConfirm" placeholder="Repeat password">
+                    <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+                </div>
+                <div>
+                    <div class="form-group  pt-1">
+                        <button type="submit" class="btn btn-success btn-block shadow-sm rounded">Register</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</form>
+    <div class="row justify-content-lg-center pt-4">
+        <div class="col-lg-8 text-lg-center">
+            <h6 class="h6">Already registered in Plushkin? <a asp-controller="Account" asp-action="Login">Sign in your account.</a></h6>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>

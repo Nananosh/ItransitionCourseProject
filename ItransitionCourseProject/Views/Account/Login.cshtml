@@ -1,39 +1,78 @@
 ﻿@model ItransitionCourseProject.ViewModels.Account.LoginViewModel
 
-<h2>Login</h2>
-<form class="form-group" method="post" asp-controller="Account" asp-action="Login"
-      asp-route-returnUrl="@Model.ReturnUrl">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div class="form-group">
-        <label asp-for="UserName"></label>
-        <input class="form-control" asp-for="UserName" placeholder="Enter username">
-        <span asp-validation-for="UserName"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input class="form-control" asp-for="Password" placeholder="Enter password">
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <button type="submit" class="btn btn-primary">Login</button>
-    </div>
-</form>
-
-<div class="col-md-6">
-    <h1>External Login</h1>
-    <hr/>
-    <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
-        <div>
-            <button type="submit" class="btn btn-primary"
-                    name="provider" value="Google"
-                    title="Login usin your Google account">
-                Google
-            </button>
-            <button type="submit" class="btn btn-primary"
-                    name="provider" value="Facebook"
-                    title="Login usin your Facebook account">
-                Facebook
-            </button>
+@{
+    Layout = null;
+    ViewData["Title"] = "Sign In to Plushkin";
+}
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+</head>
+<br>
+<br>
+<br>
+<br>
+<div id="signIn" class="container p-xl-3">
+    <div class="row justify-content-lg-center">
+        <div class="col-lg-8 text-lg-center pb-4">
+            <a asp-action="Index" asp-controller="Home" style="text-decoration: none; color: black"><h1 style="font-family: 'Abril Fatface', cursive;">Plushkin</h1></a>
+            <h2 class="h4">Sign in to your account</h2>
         </div>
-    </form>
+    </div>
+    <br>
+    <div class="row justify-content-lg-center">
+        <div class="col-lg-4 shadow pt-3 pb-1 mb-2 bg-white rounded">
+            <form class="form-group" method="post" asp-controller="Account" asp-action="Login"
+                  asp-route-returnUrl="@Model.ReturnUrl">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UserName"></label>
+                    <input class="form-control shadow-sm bg-white rounded" asp-for="UserName" placeholder="Enter username">
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input class="form-control shadow-sm bg-white rounded" asp-for="Password" placeholder="Enter password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-block shadow-sm rounded">Sign In</button>
+                </div>
+            </form>
+            <div class="border-top text-center">
+                <form method="post" asp-action="ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl">
+                    <div class="row pt-2">
+                        <div class="col-lg-6">
+                            <button type="submit" class="btn btn-light shadow-sm rounded btn-block"
+                                    name="provider" value="Google"
+                                    title="Login using your Google account">
+                                <img src="https://img.icons8.com/color/20/000000/google-logo.png" alt="google"/>
+                            </button>
+                        </div>
+                        <div class="col-lg-6">
+                            <button type="submit" class="btn btn-light shadow-sm rounded btn-block"
+                                    name="provider" value="Facebook"
+                                    title="Login using your Facebook account">
+                                <img src="https://img.icons8.com/fluency/20/000000/facebook-circled.png" alt="facebook"/>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-lg-center pt-4">
+        <div class="col-lg-8 text-lg-center">
+            <h6 class="h6">New to Plushkin? <a asp-controller="Account" asp-action="Register">Create an account.</a></h6>
+        </div>
+    </div>
 </div>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
