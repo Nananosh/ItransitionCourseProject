@@ -50,6 +50,19 @@ namespace ItransitionCourseProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CollectionThemes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Theme = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CollectionThemes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tags",
                 columns: table => new
                 {
@@ -177,7 +190,8 @@ namespace ItransitionCourseProject.Migrations
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CollectionThemeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,6 +200,12 @@ namespace ItransitionCourseProject.Migrations
                         name: "FK_Collections_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Collections_CollectionThemes_CollectionThemeId",
+                        column: x => x.CollectionThemeId,
+                        principalTable: "CollectionThemes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -410,6 +430,11 @@ namespace ItransitionCourseProject.Migrations
                 column: "TagsId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Collections_CollectionThemeId",
+                table: "Collections",
+                column: "CollectionThemeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Collections_UserId",
                 table: "Collections",
                 column: "UserId");
@@ -504,6 +529,9 @@ namespace ItransitionCourseProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "CollectionThemes");
         }
     }
 }

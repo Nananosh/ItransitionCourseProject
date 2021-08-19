@@ -23,17 +23,17 @@
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1 justify-content-start">
                     <li class="nav-item">
-                            <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" asp-action="AllCollection" asp-controller="Collection">Collections</a>
-                          </li>
+                        <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="AllCollection" asp-controller="Collection">Collections</a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav flex-grow-1 justify-content-end">
                     <li class="nav-item mr-3 pt-1">
                         <form method="get" asp-controller="Search" asp-action="SearchResult" class="form-inline my-2 my-lg-0">
-                          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Query">
-                          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Query">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                         </form>
                     </li>
                     @if (User.Identity.IsAuthenticated)
@@ -103,6 +103,7 @@ function getValueDiv(){
             bsCustomFileInput.init();
         })
 </script>
+<script src="~/lib/lightbox-master/dist/ekko-lightbox.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

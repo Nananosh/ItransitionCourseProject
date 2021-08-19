@@ -13,7 +13,7 @@ namespace ItransitionCourseProject.Models
         public string Image { get; set; }
         public string Description { get; set; }
         public CollectionTheme CollectionTheme { get; set; }
-        public List<Like> Likes { get; set; } = new();
+        public List<Like> Likes { get; set; }
         public List<Comment> Comments { get; set; } = new();
         public List<CustomFieldsTemplate> CustomFieldsTemplates { get; set; } = new();
         public List<Tag> Tags { get; set; } = new();

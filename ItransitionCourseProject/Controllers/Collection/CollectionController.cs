@@ -85,16 +85,21 @@ namespace ItransitionCourseProject.Controllers.Collection
         [HttpGet]
         public async Task<IActionResult> Collection(int id)
         {
-            ViewBag.Collection = await _database.Collections
+            var collection = await _database.Collections
+                .Include(u => u.User)
                 .Include(t => t.Tags)
                 .AsSingleQuery()
                 .Include(u => u.User)
                 .Include(c => c.Comments)
+                .AsSingleQuery()
                 .Include(l => l.Likes)
+                .ThenInclude(u => u.User)
                 .Include(t => t.CollectionTheme)
                 .Where(c => c.Id == id)
                 .SingleAsync();
-
+            ViewBag.Collection = collection;
+            ViewBag.CollectionElement = await _database.CollectionElements
+                .Where(i => i.Collection.Id == id).ToListAsync();
             return View();
         }
 
@@ -208,7 +213,8 @@ namespace ItransitionCourseProject.Controllers.Collection
         public async Task<IActionResult> AllCollection(List<Models.Collection> collectionsList)
         {
             ViewBag.Collections = await _database.Collections
-                    .Include(t => t.Tags)
+                .Include(u => u.User)
+                .Include(t => t.Tags)
                     .ToListAsync();
             return View();
         }
