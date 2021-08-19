@@ -145,6 +145,8 @@ namespace ItransitionCourseProject.Controllers.Collection
         {
             ViewBag.CollectionElement = await _database.CollectionElements
                 .Where(c => c.Id == id)
+                .Include(c => c.Collection)
+                .ThenInclude(u => u.User)
                 .Include(c => c.CustomFields)
                 .ThenInclude(c => c.CustomFieldsTemplates)
                 .AsSingleQuery()
