@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
 using ItransitionCourseProject.ViewModels.Collection;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -212,11 +213,10 @@ namespace ItransitionCourseProject.Controllers.Collection
         }
 
         [HttpGet]
-        public async Task<IActionResult> AllCollection(List<Models.Collection> collectionsList)
+        public async Task<IActionResult> AllCollection()
         {
             ViewBag.Collections = await _database.Collections
-                .Include(u => u.User)
-                .Include(t => t.Tags)
+                    .Include(u => u.User)
                     .ToListAsync();
             return View();
         }
