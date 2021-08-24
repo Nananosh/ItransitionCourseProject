@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,18 @@ namespace ItransitionCourseProject.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.AllProfiles = await _database.Users.ToListAsync();
+            ViewBag.Collections = await _database.Collections
+                .Include(c => c.CollectionTheme)
+                .Include(l => l.Likes)
+                .OrderByDescending(c => c.Likes.Count)
+                .ToListAsync();
+            ViewBag.LastAddedCollectionElement = await _database.CollectionElements
+                .OrderByDescending(c => c.Id)
+                .ToListAsync();
+            ViewBag.NumberLike = await _database.Likes.CountAsync();
+            ViewBag.NumberCollections = await _database.Collections.CountAsync();
+            ViewBag.NubmerUsers = await _database.Users.CountAsync();
+            ViewBag.NumberComments = await _database.Comments.CountAsync();
             return View();
         }
 

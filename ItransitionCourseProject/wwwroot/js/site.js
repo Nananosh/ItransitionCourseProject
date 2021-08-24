@@ -22,3 +22,6 @@ fileUpload.addEventListener('change', function () {
         console.log(err);
     });
 });
+
+
+

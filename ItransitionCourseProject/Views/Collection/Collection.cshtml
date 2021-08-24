@@ -4,53 +4,52 @@
     ViewData["Title"] = $"Collection - {ViewBag.Collection.Title}";
 }
 <div id="collection" class="container mt-5">
-    
     <div class="row shadow pt-1 pb-1 mb-2 bg-white rounded">
         @if (User.Identity.IsAuthenticated)
         {
             <div class="col-lg-12 mt-2 justify-content-between custom-control-inline">
-            <a href="" class="card-link">@ViewBag.Collection.User.UserName</a>
-            <div class="d-flex justify-content-end">
-                <form class="" method="post" asp-controller="Collection">
-                    <div asp-validation-summary="ModelOnly"></div>
-                    <input type="hidden" asp-for="LikeViewModel.UserId" value="@User.Claims.ElementAt(0).Value"/>
-                    <input type="hidden" asp-for="LikeViewModel.CollectionId" value="@ViewBag.Collection.Id"/>
-                    <div>
-                        @{
-                            List<Like> likes = new List<Like>(ViewBag.Collection.Likes);
-                            if (likes.Any(i => i.User.Id == User.Claims.ElementAt(0).Value))
-                            {
-                                <button type="submit" class="btn btn-danger shadow-sm" asp-action="CollectionUnLike" asp-controller="Collection">
-                                    <span class="badge badge-light mr-2">@likes.Count</span><img src="https://img.icons8.com/ios/20/000000/dislike.png"/>
-                                </button>
+                <a href="" class="card-link">@ViewBag.Collection.User.UserName</a>
+                <div class="d-flex justify-content-end">
+                    <form class="" method="post" asp-controller="Collection">
+                        <div asp-validation-summary="ModelOnly"></div>
+                        <input type="hidden" asp-for="LikeViewModel.UserId" value="@User.Claims.ElementAt(0).Value"/>
+                        <input type="hidden" asp-for="LikeViewModel.CollectionId" value="@ViewBag.Collection.Id"/>
+                        <div>
+                            @{
+                                List<Like> likes = new List<Like>(ViewBag.Collection.Likes);
+                                if (likes.Any(i => i.User.Id == User.Claims.ElementAt(0).Value))
+                                {
+                                    <button type="submit" class="btn btn-danger shadow-sm mr-1" asp-action="CollectionUnLike" asp-controller="Collection">
+                                        <span class="badge badge-light mr-2">@likes.Count</span><img src="https://img.icons8.com/ios/20/000000/dislike.png"/>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-success shadow-sm mr-1" asp-action="CollectionLike" asp-controller="Collection">
+                                        <span class="badge badge-light mr-2">@likes.Count</span><img src="https://img.icons8.com/material-outlined/20/000000/filled-like.png"/>
+                                    </button>
+                                }
                             }
-                            else
-                            {
-                                <button type="submit" class="btn btn-success shadow-sm" asp-action="CollectionLike" asp-controller="Collection">
-                                    <span class="badge badge-light mr-2">@likes.Count</span><img src="https://img.icons8.com/material-outlined/20/000000/filled-like.png"/>
-                                </button>
-                            }
-                        }
-                    </div>
-                </form>
-                @if (User.Claims.ElementAt(0).Value == ViewBag.Collection.User.Id.ToString())
-                {
-                    <a class="btn btn-primary shadow-sm" asp-action="CreateCollectionElement" asp-controller="Collection" asp-route-id="@ViewBag.Collection.Id">
-                        <img src="https://img.icons8.com/material-outlined/20/000000/plus--v1.png" alt="AddCollectionElement"/>
-                    </a>
-                    <div class="dropdown">
-                        <button class="btn btn-warning dropdown-toggle shadow-sm rounded" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img src="https://img.icons8.com/material-outlined/20/000000/edit--v1.png" alt="EditCollection"/>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Edit</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Delete</a>
                         </div>
-                    </div>
-                }
+                    </form>
+                    @if (User.Claims.ElementAt(0).Value == ViewBag.Collection.User.Id.ToString())
+                    {
+                        <a class="btn btn-primary shadow-sm" asp-action="CreateCollectionElement" asp-controller="Collection" asp-route-id="@ViewBag.Collection.Id">
+                            <img src="https://img.icons8.com/material-outlined/20/000000/plus--v1.png" alt="AddCollectionElement"/>
+                        </a>
+                        <div class="dropdown">
+                            <button class="btn btn-warning dropdown-toggle shadow-sm rounded ml-1" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="https://img.icons8.com/material-outlined/20/000000/edit--v1.png" alt="EditCollection"/>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Delete</a>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
-        </div>
         }
         <div class="col-lg-12">
             <h1 class="h3">
@@ -58,29 +57,31 @@
             </h1>
         </div>
         <div class="col-lg-12">@ViewBag.Collection.Description</div>
-        <div class="border-top border-bottom mt-3">
-            <div class="row justify-content-center pt-3 pb-4 pl-2 pr-2">
+        <div class="col-lg-12 border-top mt-3"></div>
+        <div class="row pt-3 pb-4 pl-2 pr-2 d-flex justify-content-center">
                 @foreach (var collectionElement in ViewBag.CollectionElement)
                 {
-                    <div class="card bg-secondary shadow bg-white rounded mr-2 mb-2" style="width: 18rem;">
-                        <a href="@collectionElement.Image" data-toggle="lightbox" data-title="@collectionElement.Title">
-                            <img src="@collectionElement.Image" class="card-img-top shadow-sm bg-white rounded image-popup-no-margins" alt="...">
-                        </a>
-                        <div class="card-body">
-                            <h5 class="card-title">@collectionElement.Title</h5>
-                            <p class="card-text cropped-text">@collectionElement.Description</p>
-                            <a asp-action="CollectionElement" asp-controller="Collection" asp-route-id="@collectionElement.Id" class="btn btn-primary">Watch Item</a>
+                    <div class="col-auto">
+                        <div class="card bg-secondary  bg-white rounded mb-2 ml-3 mr-3 " style="width: 18rem;">
+                            <a href="@collectionElement.Image" data-toggle="lightbox" data-title="@collectionElement.Title">
+                                <img src="@collectionElement.Image" class="card-img-top shadow-sm bg-white rounded image-popup-no-margins img-card" alt="...">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">@collectionElement.Title</h5>
+                                <p class="card-text cropped-text">@collectionElement.Description</p>
+                                <a asp-action="CollectionElement" asp-controller="Collection" asp-route-id="@collectionElement.Id" class="btn btn-primary">Watch Item</a>
+                            </div>
                         </div>
-                    </div>
+                        </div>
                 }
             </div>
-            <div class="col-lg-12 border-top mt-2 mb-2 pt-2">
-                @foreach (var tag in ViewBag.Collection.Tags)
-                {
-                    <span class="badge badge-secondary">@tag.TagName</span>
-                }
-            </div>
+        <div class="col-lg-12 border-top mt-2 mb-2 pt-2">
+            @foreach (var tag in ViewBag.Collection.Tags)
+            {
+                <span class="badge badge-secondary">@tag.TagName</span>
+            }
         </div>
+        <div class="col-lg-12 border-top"></div>
         <div class="col-lg-12 pt-2 pb-2 mb-2 bg-white rounded justify-content-center">
             @if (User.Identity.IsAuthenticated)
             {
@@ -102,7 +103,7 @@
         @foreach (var comment in ViewBag.Collection.Comments)
         {
             <div class="col-lg-11 pt-2 pb-2 mb-2 bg-white rounded border-bottom shadow ml-5">
-                <h5 class="h3 mb-2 mt-2">@comment.User.UserName</h5>
+                <h5 class="h4 mb-2 mt-2">@comment.User.UserName</h5>
                 <p>@comment.Text</p>
             </div>
         }

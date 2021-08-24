@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
 using ItransitionCourseProject.ViewModels.Collection;
@@ -212,12 +214,30 @@ namespace ItransitionCourseProject.Controllers.Collection
             return RedirectToAction("Collection", "Collection", new { id = model.LikeViewModel.CollectionId });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> AllCollection()
+        private async Task<List<Models.Collection>> GetCollectionByPredicate(
+            Expression<Func<Models.Collection, bool>> predicate)
         {
-            ViewBag.Collections = await _database.Collections
-                    .Include(u => u.User)
-                    .ToListAsync();
+            var collections = await _database.Collections
+                .Include(u => u.User)
+                .Include(t => t.CollectionTheme)
+                .Where(predicate)
+                .ToListAsync();
+            return collections;
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> AllCollection(CollectionTheme collectionTheme)
+        {
+            if (collectionTheme.Theme == null)
+            {
+                ViewBag.Collections = await GetCollectionByPredicate(c => true);
+            }
+            else
+            {
+                ViewBag.Collections = await GetCollectionByPredicate(c=>c.CollectionTheme.Theme == collectionTheme.Theme);
+            }
+
+            ViewBag.CollectionThemes = await _database.CollectionThemes.ToListAsync();
             return View();
         }
     }
