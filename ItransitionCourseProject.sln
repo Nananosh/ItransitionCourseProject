@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItransitionCourseProject", "ItransitionCourseProject\ItransitionCourseProject.csproj", "{F81DE99B-9A86-43FA-A980-396871ABB14A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItransitionCourseProject.Tests.UI", "ItransitionCourseProject.Tests.UI\ItransitionCourseProject.Tests.UI.csproj", "{21958402-0B83-48EA-9D1A-782398606849}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UiTestFramework", "UiTestFramework\UiTestFramework.csproj", "{4A436278-D49D-4902-9757-F7A535E91AD5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F81DE99B-9A86-43FA-A980-396871ABB14A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F81DE99B-9A86-43FA-A980-396871ABB14A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F81DE99B-9A86-43FA-A980-396871ABB14A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F81DE99B-9A86-43FA-A980-396871ABB14A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21958402-0B83-48EA-9D1A-782398606849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21958402-0B83-48EA-9D1A-782398606849}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21958402-0B83-48EA-9D1A-782398606849}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21958402-0B83-48EA-9D1A-782398606849}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A436278-D49D-4902-9757-F7A535E91AD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A436278-D49D-4902-9757-F7A535E91AD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A436278-D49D-4902-9757-F7A535E91AD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A436278-D49D-4902-9757-F7A535E91AD5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
