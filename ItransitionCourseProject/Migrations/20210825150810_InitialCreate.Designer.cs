@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItransitionCourseProject.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210818192452_InitialCreate")]
+    [Migration("20210825150810_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -285,7 +285,8 @@ namespace ItransitionCourseProject.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserImage")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("https://img.icons8.com/material-outlined/200/000000/user--v1.png");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)

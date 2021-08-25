@@ -24,4 +24,3 @@ fileUpload.addEventListener('change', function () {
 });
 
 
-

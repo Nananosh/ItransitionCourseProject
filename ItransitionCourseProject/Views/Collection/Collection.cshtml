@@ -5,10 +5,13 @@
 }
 <div id="collection" class="container mt-5">
     <div class="row shadow pt-1 pb-1 mb-2 bg-white rounded">
-        @if (User.Identity.IsAuthenticated)
-        {
-            <div class="col-lg-12 mt-2 justify-content-between custom-control-inline">
-                <a href="" class="card-link">@ViewBag.Collection.User.UserName</a>
+        <div class="col-lg-12 mt-2 justify-content-between custom-control-inline">
+            <a asp-controller="Profile" asp-action="Profile" asp-route-id="@ViewBag.Collection.User.Id" class="card-link" style="text-decoration: none; color: #000 !important;">
+                <img id="avatar" class="rounded-circle" src="@ViewBag.Collection.User.UserImage" value="" alt="avatar" style="height: 33px; width: 33px; object-fit:cover;"/>
+                @ViewBag.Collection.User.UserName
+            </a>
+            @if (User.Identity.IsAuthenticated)
+            {
                 <div class="d-flex justify-content-end">
                     <form class="" method="post" asp-controller="Collection">
                         <div asp-validation-summary="ModelOnly"></div>
@@ -49,8 +52,9 @@
                         </div>
                     }
                 </div>
-            </div>
-        }
+            }
+        </div>
+
         <div class="col-lg-12">
             <h1 class="h3">
                 @ViewBag.Collection.Title<span class="badge badge-info ml-2">@ViewBag.Collection.CollectionTheme.Theme</span>
@@ -59,22 +63,22 @@
         <div class="col-lg-12">@ViewBag.Collection.Description</div>
         <div class="col-lg-12 border-top mt-3"></div>
         <div class="row pt-3 pb-4 pl-2 pr-2 d-flex justify-content-center">
-                @foreach (var collectionElement in ViewBag.CollectionElement)
-                {
-                    <div class="col-auto">
-                        <div class="card bg-secondary  bg-white rounded mb-2 ml-3 mr-3 " style="width: 18rem;">
-                            <a href="@collectionElement.Image" data-toggle="lightbox" data-title="@collectionElement.Title">
-                                <img src="@collectionElement.Image" class="card-img-top shadow-sm bg-white rounded image-popup-no-margins img-card" alt="...">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title">@collectionElement.Title</h5>
-                                <p class="card-text cropped-text">@collectionElement.Description</p>
-                                <a asp-action="CollectionElement" asp-controller="Collection" asp-route-id="@collectionElement.Id" class="btn btn-primary">Watch Item</a>
-                            </div>
+            @foreach (var collectionElement in ViewBag.CollectionElement)
+            {
+                <div class="col-auto">
+                    <div class="card bg-secondary  bg-white rounded mb-2 ml-3 mr-3 " style="width: 18rem;">
+                        <a href="@collectionElement.Image" data-toggle="lightbox" data-title="@collectionElement.Title">
+                            <img src="@collectionElement.Image" class="card-img-top shadow-sm bg-white rounded image-popup-no-margins img-card" alt="...">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">@collectionElement.Title</h5>
+                            <p class="card-text cropped-text">@collectionElement.Description</p>
+                            <a asp-action="CollectionElement" asp-controller="Collection" asp-route-id="@collectionElement.Id" class="btn btn-primary">Watch Item</a>
                         </div>
-                        </div>
-                }
-            </div>
+                    </div>
+                </div>
+            }
+        </div>
         <div class="col-lg-12 border-top mt-2 mb-2 pt-2">
             @foreach (var tag in ViewBag.Collection.Tags)
             {
@@ -103,7 +107,10 @@
         @foreach (var comment in ViewBag.Collection.Comments)
         {
             <div class="col-lg-11 pt-2 pb-2 mb-2 bg-white rounded border-bottom shadow ml-5">
-                <h5 class="h4 mb-2 mt-2">@comment.User.UserName</h5>
+                <a asp-controller="Profile" asp-action="Profile" asp-route-id="@comment.User.Id" class="h4 mb-2 mt-2" style="text-decoration: none; color: #000 !important;">
+                    <img id="avatar" class="rounded-circle" src="@comment.User.UserImage" value="" alt="avatar" style="height: 33px; width: 33px; object-fit:cover;"/>
+                    @comment.User.UserName
+                </a>
                 <p>@comment.Text</p>
             </div>
         }

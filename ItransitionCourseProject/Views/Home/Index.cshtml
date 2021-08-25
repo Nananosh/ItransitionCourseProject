@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <div class="container bg-white rounded mt-3">
+    <div class="container bg-white rounded mt-3 shadow">
         <div class="row pt-3">
                 <div class="four col-md-3">
                     <div class="counter-box colored shadow-sm rounded"> <i class="fa fa-thumbs-o-up"></i> <span class="counter">@ViewBag.NumberLike</span>
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="row">
-            @for (int i = 0; i < 6; i++)
+            @for (int i = 0; i < ViewBag.Collections.Count; i++)
             {
                 <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card bg-secondary bg-white rounded mb-4" style="width: 18rem;">
@@ -88,7 +88,7 @@
             </div>
         </div>
         <div class="row">
-            @for (int i = 0; i < 6; i++)
+            @for (int i = 0; i < ViewBag.LastAddedCollectionElement.Count; i++)
             {
                 <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card bg-secondary bg-white rounded mb-4" style="width: 18rem;">

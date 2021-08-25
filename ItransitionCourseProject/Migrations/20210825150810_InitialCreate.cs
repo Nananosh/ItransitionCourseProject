@@ -28,7 +28,7 @@ namespace ItransitionCourseProject.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     RegistrationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastLoginDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserImage = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "https://img.icons8.com/material-outlined/200/000000/user--v1.png"),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),

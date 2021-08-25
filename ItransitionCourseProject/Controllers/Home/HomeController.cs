@@ -25,9 +25,11 @@ namespace ItransitionCourseProject.Controllers
                 .Include(c => c.CollectionTheme)
                 .Include(l => l.Likes)
                 .OrderByDescending(c => c.Likes.Count)
+                .Take(6)
                 .ToListAsync();
             ViewBag.LastAddedCollectionElement = await _database.CollectionElements
                 .OrderByDescending(c => c.Id)
+                .Take(6)
                 .ToListAsync();
             ViewBag.NumberLike = await _database.Likes.CountAsync();
             ViewBag.NumberCollections = await _database.Collections.CountAsync();
