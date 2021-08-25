@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Identity;
 
 namespace ItransitionCourseProject.Models

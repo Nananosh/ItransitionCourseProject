@@ -15,7 +15,9 @@ namespace ItransitionCourseProject.ViewModels.Collection
         [Display(Name = "Description")]
         public string Description { get; set; }
 
+        [Display(Name = "Tags")]
         public string Tags { get; set; }
+        [Display(Name = "Theme")]
         public CollectionTheme Theme { get; set; }
 
         [Display(Name = "CustomFields")] public List<CustomFieldsTemplate> CustomFields { get; set; } = new();

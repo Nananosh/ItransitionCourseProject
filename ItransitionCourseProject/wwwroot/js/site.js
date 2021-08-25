@@ -1,7 +1,7 @@
 ﻿let CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/nananosh/upload';
 let CLOUDINARY_UPLOAD_PRESET = 't975jxtr';
 let imgPreview = document.getElementById('img-preview');
-let fileUpload = document.getElementById('file-upload');
+let fileUpload = document.getElementById('customFile');
 fileUpload.addEventListener('change', function () {
     let file = event.target.files[0];
     let formData = new FormData();
@@ -22,10 +22,5 @@ fileUpload.addEventListener('change', function () {
         console.log(err);
     });
 });
-
-
-
-
-
 
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 using ItransitionCourseProject.Models;
 
 namespace ItransitionCourseProject.ViewModels.Collection
@@ -15,8 +16,9 @@ namespace ItransitionCourseProject.ViewModels.Collection
         [Display(Name = "Description")]
         public string Description { get; set; }
 
+        [Display(Name = "Tags")]
         public string Tags { get; set; }
 
-        [Display(Name = "CustomFields")] public List<CustomField> CustomFields { get; set; } = new();
+        [Required][Display(Name = "CustomFields")] public List<CustomField> CustomFields { get; set; } = new();
     }
 }

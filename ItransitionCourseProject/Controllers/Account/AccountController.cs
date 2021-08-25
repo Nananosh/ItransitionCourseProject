@@ -89,7 +89,8 @@ namespace ItransitionCourseProject.Controllers
                         UserName = info.Principal.FindFirstValue(ClaimTypes.Name),
                         Email = info.Principal.FindFirstValue(ClaimTypes.Email),
                         LastLoginDate = DateTime.Now,
-                        RegistrationDate = DateTime.Now
+                        RegistrationDate = DateTime.Now,
+                        UserImage = "https://img.icons8.com/material-outlined/200/000000/user--v1.png"
                     };
 
                     await _userManager.CreateAsync(user);
@@ -121,7 +122,7 @@ namespace ItransitionCourseProject.Controllers
                 var user = new User
                 {
                     Email = model.Email, UserName = model.UserName, RegistrationDate = DateTime.Now,
-                    LastLoginDate = DateTime.Now
+                    LastLoginDate = DateTime.Now,UserImage = "https://img.icons8.com/material-outlined/200/000000/user--v1.png"
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -175,44 +176,6 @@ namespace ItransitionCourseProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteUser(string[] selectedUsersId)
-        {
-            if (selectedUsersId != null)
-                foreach (var userId in selectedUsersId)
-                {
-                    var user = _database.Users.FirstOrDefault(u => u.Id == userId);
-                    _database.Remove(user);
-                    _database.SaveChanges();
-                }
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> BlockUser(string[] selectedUsersId)
-        {
-            if (selectedUsersId != null)
-                foreach (var userId in selectedUsersId)
-                {
-                    var user = _database.Users.FirstOrDefault(u => u.Id == userId);
-                    await _userManager.SetLockoutEndDateAsync(user, DateTime.Today.AddYears(100));
-                }
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        public async Task<IActionResult> UnBlockUser(string[] selectedUsersId)
-        {
-            if (selectedUsersId != null)
-                foreach (var userId in selectedUsersId)
-                {
-                    var user = _database.Users.FirstOrDefault(u => u.Id == userId);
-                    await _userManager.SetLockoutEndDateAsync(user, null);
-                }
-
-            return RedirectToAction("Index", "Home");
-        }
-
         private async Task SetLastLoginDateToUser(LoginViewModel model)
         {
             var user = _database.Users.FirstOrDefault(u => u.UserName == model.UserName);

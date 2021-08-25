@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
 using ItransitionCourseProject.ViewModels.Collection;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -51,13 +55,15 @@ namespace ItransitionCourseProject.Controllers.Collection
 
             return list;
         }
-
+        
+        [Authorize]
         public async Task<IActionResult> CreateCollection()
         {
             ViewBag.Themes = await _database.CollectionThemes.ToListAsync();
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateCollection(CreateCollectionViewModel model)
         {
@@ -79,26 +85,31 @@ namespace ItransitionCourseProject.Controllers.Collection
                 await _database.SaveChangesAsync();
                 return RedirectToAction("Collection", "Collection", new { collection.Id });
             }
-
             return View(model);
         }
 
         [HttpGet]
         public async Task<IActionResult> Collection(int id)
         {
-            ViewBag.Collection = await _database.Collections
+            var collection = await _database.Collections
+                .Include(u => u.User)
                 .Include(t => t.Tags)
                 .AsSingleQuery()
                 .Include(u => u.User)
                 .Include(c => c.Comments)
+                .AsSingleQuery()
                 .Include(l => l.Likes)
+                .ThenInclude(u => u.User)
                 .Include(t => t.CollectionTheme)
                 .Where(c => c.Id == id)
                 .SingleAsync();
-
+            ViewBag.Collection = collection;
+            ViewBag.CollectionElement = await _database.CollectionElements
+                .Where(i => i.Collection.Id == id).ToListAsync();
             return View();
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> CreateCollectionElement(int id)
         {
@@ -107,6 +118,7 @@ namespace ItransitionCourseProject.Controllers.Collection
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateCollectionElement(CreateCollectionElementViewModel model)
         {
@@ -141,6 +153,8 @@ namespace ItransitionCourseProject.Controllers.Collection
         {
             ViewBag.CollectionElement = await _database.CollectionElements
                 .Where(c => c.Id == id)
+                .Include(c => c.Collection)
+                .ThenInclude(u => u.User)
                 .Include(c => c.CustomFields)
                 .ThenInclude(c => c.CustomFieldsTemplates)
                 .AsSingleQuery()
@@ -149,6 +163,7 @@ namespace ItransitionCourseProject.Controllers.Collection
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateComment(CollectionViewModel model)
         {
@@ -170,6 +185,7 @@ namespace ItransitionCourseProject.Controllers.Collection
             return RedirectToAction("Collection", "Collection", new { id = model.CommentViewModel.CollectionId });
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CollectionLike(CollectionViewModel model)
         {
@@ -190,6 +206,7 @@ namespace ItransitionCourseProject.Controllers.Collection
             return RedirectToAction("Collection", "Collection", new { id = model.LikeViewModel.CollectionId });
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CollectionUnLike(CollectionViewModel model)
         {
@@ -205,12 +222,30 @@ namespace ItransitionCourseProject.Controllers.Collection
             return RedirectToAction("Collection", "Collection", new { id = model.LikeViewModel.CollectionId });
         }
 
-        [HttpGet]
-        public async Task<IActionResult> AllCollection(List<Models.Collection> collectionsList)
+        private async Task<List<Models.Collection>> GetCollectionByPredicate(
+            Expression<Func<Models.Collection, bool>> predicate)
         {
-            ViewBag.Collections = await _database.Collections
-                    .Include(t => t.Tags)
-                    .ToListAsync();
+            var collections = await _database.Collections
+                .Include(u => u.User)
+                .Include(t => t.CollectionTheme)
+                .Where(predicate)
+                .ToListAsync();
+            return collections;
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> AllCollection(CollectionTheme collectionTheme)
+        {
+            if (collectionTheme.Theme == null)
+            {
+                ViewBag.Collections = await GetCollectionByPredicate(c => true);
+            }
+            else
+            {
+                ViewBag.Collections = await GetCollectionByPredicate(c=>c.CollectionTheme.Theme == collectionTheme.Theme);
+            }
+
+            ViewBag.CollectionThemes = await _database.CollectionThemes.ToListAsync();
             return View();
         }
     }

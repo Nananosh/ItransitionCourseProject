@@ -1,0 +1,118 @@
+﻿@{
+    ViewData["Title"] = $"{ViewBag.User.UserName}";
+}
+<div id="profile" class="container bg-white rounded mt-3 shadow pt-3">
+    <div class="row">
+        <div class="col-lg-6 pl-3">
+            
+            <a href="@ViewBag.User.UserImage" data-toggle="lightbox" data-title="@ViewBag.User.UserName">
+                <img class="rounded-circle" src="@ViewBag.User.UserImage" alt="avatar" style="width: 150px; height: 150px; object-fit:cover;">
+            </a>
+        </div>
+        @if (User.Identity.IsAuthenticated && ViewBag.User.Id == User.Claims.ElementAt(0).Value)
+        {
+            <div class="col-lg-6 d-flex justify-content-end">
+                <a class="btn btn-outline-warning align-self-start" asp-controller="Collection" asp-action="AllCollection">Edit profile</a>
+            </div>
+        }
+        <div class="col-lg-12 pl-3">
+            <h1 class="h4">@ViewBag.User.UserName</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 mt-3 pt-3 pb-1">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link btn-block rounded active" data-toggle="tab" href="#collections">Collections</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link rounded" data-toggle="tab" href="#likes">Likes</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link rounded" data-toggle="tab" href="#comments">Comments</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="collections" class="tab-pane fade show active mt-3">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Likes</th>
+                        @if (User.Identity.IsAuthenticated && ViewBag.User.Id == User.Claims.ElementAt(0).Value)
+                        {
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        }
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var collection in ViewBag.UserCollections)
+                        {
+                            <tr>
+                                <th>
+                                    <a asp-controller="Collection" asp-action="Collection" asp-route-id="@collection.Id" style="text-decoration: none; color: #000 !important;">@collection.Title</a>
+                                </th>
+                                <td>@collection.Likes.Count</td>
+                                @if (User.Identity.IsAuthenticated && collection.User.Id == User.Claims.ElementAt(0).Value)
+                                {
+                                    <td>
+                                        <a class="btn btn-warning">Edit</a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-danger">Delete</a>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                <div id="likes" class="tab-pane fade mt-3">
+                    <div class="row justify-content-center">
+                        @foreach (var likeCollection in ViewBag.LikeCollections)
+                        {
+                            <div class="col-auto">
+                                <div class="card bg-secondary bg-white rounded mb-2 ml-3 mr-3 " style="width: 18rem;">
+                                    <a href="@likeCollection.Collection.Image" data-toggle="lightbox" data-title="@likeCollection.Collection.Title">
+                                        <img src="@likeCollection.Collection.Image" class="card-img-top shadow-sm bg-white rounded image-popup-no-margins img-card" alt="...">
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title">@likeCollection.Collection.Title</h5>
+                                        <p class="card-text cropped-text">@likeCollection.Collection.Description</p>
+                                        <a asp-action="Collection" asp-controller="Collection" asp-route-id="@likeCollection.Collection.Id" class="btn btn-primary">Watch Collection</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div id="comments" class="tab-pane fade mt-3">
+                    <div class="row justify-content-center">
+                    @foreach (var comment in ViewBag.UserComments)
+                    {
+                        <div class="col-lg-auto">
+                            <div class="card bg-secondary bg-white rounded mb-2 ml-3 mr-3 " style="width: 18rem;">
+                                <a href="@comment.Collection.Image" data-toggle="lightbox" data-title="@comment.Collection.Title">
+                                    <img src="@comment.Collection.Image" class="card-img-top shadow-sm bg-white rounded image-popup-no-margins img-card" alt="...">
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title">Your comment</h5>
+                                    <p class="card-text cropped-text">@comment.Text</p>
+                                    <a asp-action="Collection" asp-controller="Collection" asp-route-id="@comment.Collection.Id" class="btn btn-primary">Watch collection</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+    event.preventDefault();
+    $(this).ekkoLightbox();
+});
+</script>

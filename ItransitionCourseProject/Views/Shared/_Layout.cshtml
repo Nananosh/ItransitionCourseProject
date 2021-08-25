@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="shortcut icon" href="~/icon.png"/>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"]</title>
@@ -8,32 +9,45 @@
     <link rel="stylesheet" href="~/css/site.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link href="~/lib/Multi-Select-Plugin-jQuery-MagicSuggest/magicsuggest.css" rel="stylesheet"/>
-
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
 </head>
 <body>
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ItransitionTask4</a>
+        <div class="container col-lg-8">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="font-family: 'Abril Fatface', cursive;">Plushkin</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1 justify-content-start">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="AllCollection" asp-controller="Collection">Collections</a>
+                    </li>
+                </ul>
                 <ul class="navbar-nav flex-grow-1 justify-content-end">
+                    <li class="nav-item mr-3 pt-1">
+                        <form method="get" asp-controller="Search" asp-action="SearchResult" class="form-inline my-2 my-lg-0">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Query">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                    </li>
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
                                role="button" data-toggle="dropdown" aria-haspopup="true"
                                aria-expanded="false">
-                                @User.Identity.Name
+                                <img id="avatar" class="rounded-circle" src="" value="" alt="avatar" style="height: 33px; width: 33px; object-fit:cover;"/>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-controller="Profile" asp-action="Profile" asp-route-id="@User.Claims.ElementAt(0).Value">@User.Claims.ElementAt(1).Value</a>
                                 <div class="dropdown-divider"></div>
-                                @* <form asp-controller="Account" asp-action="Logout"> *@
-                                @*     <input class="dropdown-item nav-link" type="submit" value="Exit"/> *@
-                                @* </form> *@
+                                <a class="dropdown-item" asp-controller="Collection" asp-action="CreateCollection">Create Collection</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Exit</a>
                             </div>
                         </li>
@@ -41,10 +55,7 @@
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
+                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Sign In</a>
                         </li>
                     }
                 </ul>
@@ -54,6 +65,15 @@
 </header>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>
+@if (User.Identity.IsAuthenticated)
+{
+    <script>
+let avatar = document.getElementById('avatar');
+$.get('@Context.Request.Scheme://@Context.Request.Host/Profile/GetUserImage/@User.Claims.ElementAt(0).Value', function(data, status){
+    avatar.src = data;
+});
+</script>
+}
 <script>
 let myData = new Array();
 $(function() {
@@ -74,11 +94,7 @@ function getValueDiv(){
     document.getElementById('tags').value = tags_val;
 }
 </script>
-@* <div class="container"> *@
-    @* <main role="main" class="pb-3"> *@
-        @RenderBody()
-    @* </main> *@
-@* </div> *@
+@RenderBody()
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script>
         $('#checkAll').change(function(){
@@ -92,12 +108,18 @@ function getValueDiv(){
               $('#checkAll').prop('checked',false);  
             }
             });
+        
+        $(document).ready(function (){
+            bsCustomFileInput.init();
+        })
 </script>
+<script src="~/lib/lightbox-master/dist/ekko-lightbox.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="~/lib/Multi-Select-Plugin-jQuery-MagicSuggest/magicsuggest.js"></script>
+<script src="~/lib/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", false)
 </body>

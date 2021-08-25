@@ -1,27 +1,83 @@
-﻿@model dynamic
-
-
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <title>title</title>
-</head>
-<body>
-<div>
-    <h1>@ViewBag.CollectionElement.Title</h1>
-        <h2>@ViewBag.CollectionElement.Description</h2>
-        <img src="@ViewBag.CollectionElement.Image" alt="">
-        @foreach (var tag in ViewBag.CollectionElement.Tags)
-        {
-            <h5>@tag.TagName</h5>
-        }
-        @foreach (var customField in ViewBag.CollectionElement.CustomFields)
-        {
-            <span>@customField.CustomFieldsTemplates.Name</span>
-            <h2>@customField.Value</h2>
-        }
+﻿@{
+    ViewData["Title"] = $"CollectionElement - {ViewBag.CollectionElement.Title}";
+}
+<div id="collection" class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div>
+                <a class="text-dark" asp-action="Collection" asp-controller="Collection" asp-route-id="@ViewBag.CollectionElement.Collection.Id">Back</a>
+            </div>
+        </div>
+    </div>
+    <div class="row shadow pt-1 pb-1 mb-2 bg-white rounded">
+        <div class="col-lg-12 mt-2 justify-content-between custom-control-inline">
+            <a asp-controller="Profile" asp-action="Profile" asp-route-id="@ViewBag.CollectionElement.Collection.User.Id" class="card-link" style="text-decoration: none; color: #000 !important;">
+                <img id="avatar" class="rounded-circle" src="@ViewBag.CollectionElement.Collection.User.UserImage" value="" alt="avatar" style="height: 33px; width: 33px; object-fit:cover;"/>
+                @ViewBag.CollectionElement.Collection.User.UserName
+            </a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="d-flex justify-content-end">
+                    @if (User.Claims.ElementAt(0).Value == ViewBag.CollectionElement.Collection.User.Id.ToString())
+                    {
+                        <div class="dropdown">
+                            <button class="btn btn-warning dropdown-toggle shadow-sm rounded" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="https://img.icons8.com/material-outlined/20/000000/edit--v1.png"/>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Edit</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Delete</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+        <div class="col-lg-12">
+            <h1 class="h3">
+                @ViewBag.CollectionElement.Title
+            </h1>
+        </div>
+        <div class="col-lg-12 pt-2 pb-2 d-flex justify-content-center">
+            <a href="@ViewBag.CollectionElement.Image" data-toggle="lightbox" data-title="@ViewBag.CollectionElement.Title">
+                <img src="@ViewBag.CollectionElement.Image" class="card-img-top shadow-sm bg-white rounded image-popup-no-margins" alt="..." style="height: 350px; width: auto;">
+            </a>
+        </div>
+        <div class="col-lg-12">@ViewBag.CollectionElement.Description</div>
+        <div class="col-lg-12 border-top mt-3 pt-3 pb-1 text-center">
+            <ul class="nav justify-content-center">
+                @for (int i = 0; i < ViewBag.CollectionElement.CustomFields.Count; i++)
+                {
+                    string s = $"id{i}";
+                    <li class="nav-item m-1">
+                        <button class="nav-link btn btn-info btn-block shadow-sm rounded" data-toggle="tab" href="#@s">@ViewBag.CollectionElement.CustomFields[i].CustomFieldsTemplates.Name</button>
+                    </li>
+                }
+            </ul>
+            <div class="tab-content">
+                @for (int i = 0; i < ViewBag.CollectionElement.CustomFields.Count; i++)
+                {
+                    string s = $"id{i}";
+                    <div id="@s" class="container tab-pane fade mt-2">
+                        <h4 class="h4">@ViewBag.CollectionElement.CustomFields[i].Value</h4>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-lg-12 border-top border-bottom mt-2 mb-2 pt-2 pb-2">
+            @foreach (var tag in ViewBag.CollectionElement.Tags)
+            {
+                <span class="badge badge-secondary">@tag.TagName</span>
+            }
+        </div>
+    </div>
 </div>
-</body>
-</html>
+
+
+<script>
+$(document).on('click', '[data-toggle="lightbox"]', function(event) {
+    event.preventDefault();
+    $(this).ekkoLightbox();
+});
+</script>
