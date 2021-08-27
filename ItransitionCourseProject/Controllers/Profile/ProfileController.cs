@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
 using Microsoft.AspNetCore.Mvc;

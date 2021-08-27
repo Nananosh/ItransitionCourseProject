@@ -45,9 +45,9 @@
                                 <img src="https://img.icons8.com/material-outlined/20/000000/edit--v1.png" alt="EditCollection"/>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Edit</a>
+                                <a class="dropdown-item" asp-controller="Collection" asp-action="EditCollection" asp-route-id="@ViewBag.Collection.Id">Edit</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Delete</a>
+                                <a class="dropdown-item" asp-controller="Collection" asp-action="DeleteCollection" asp-route-id="@ViewBag.Collection.Id">Delete</a>
                             </div>
                         </div>
                     }

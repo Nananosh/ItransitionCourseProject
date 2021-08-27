@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
 using ItransitionCourseProject.ViewModels.Collection;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -55,7 +54,7 @@ namespace ItransitionCourseProject.Controllers.Collection
 
             return list;
         }
-        
+
         [Authorize]
         public async Task<IActionResult> CreateCollection()
         {
@@ -85,6 +84,7 @@ namespace ItransitionCourseProject.Controllers.Collection
                 await _database.SaveChangesAsync();
                 return RedirectToAction("Collection", "Collection", new { collection.Id });
             }
+
             return View(model);
         }
 
@@ -232,7 +232,7 @@ namespace ItransitionCourseProject.Controllers.Collection
                 .ToListAsync();
             return collections;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> AllCollection(CollectionTheme collectionTheme)
         {
@@ -242,11 +242,78 @@ namespace ItransitionCourseProject.Controllers.Collection
             }
             else
             {
-                ViewBag.Collections = await GetCollectionByPredicate(c=>c.CollectionTheme.Theme == collectionTheme.Theme);
+                ViewBag.Collections =
+                    await GetCollectionByPredicate(c => c.CollectionTheme.Theme == collectionTheme.Theme);
             }
 
             ViewBag.CollectionThemes = await _database.CollectionThemes.ToListAsync();
             return View();
+        }
+
+        public async Task<IActionResult> DeleteCollection(int id)
+        {
+            _database.Remove(await _database.Collections.FirstOrDefaultAsync(c => c.Id == id));
+            await _database.SaveChangesAsync();
+            return RedirectToAction("AllCollection", "Collection");
+        }
+
+        public async Task<IActionResult> DeleteCollectionElement(int id, int idCollection)
+        {
+            _database.Remove(await _database.CollectionElements
+                .Include(c => c.CustomFields)
+                .FirstOrDefaultAsync(c => c.Id == id));
+            await _database.SaveChangesAsync();
+            return RedirectToAction("Collection", "Collection", new { id = idCollection });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditCollection(int id)
+        {
+            ViewBag.Collection = await _database.Collections
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCollection(EditCollectionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var collection = await _database.Collections.FirstOrDefaultAsync(i => i.Id == model.Id);
+                collection.Title = model.Title;
+                collection.Description = model.Description;
+                collection.Image = model.Image;
+                await _database.SaveChangesAsync();
+                return RedirectToAction("Collection", "Collection", new { id = model.Id });
+            }
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditCollectionElement(int id)
+        {
+            ViewBag.CollectionElement = await _database.CollectionElements
+                .FirstOrDefaultAsync(i => i.Id == id);
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCollectionElement(EditCollectionElementViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var collectionElement = await _database.CollectionElements.FirstOrDefaultAsync(i => i.Id == model.Id);
+                collectionElement.Title = model.Title;
+                collectionElement.Description = model.Description;
+                collectionElement.Image = model.Image;
+                await _database.SaveChangesAsync();
+                return RedirectToAction("Collection", "Collection", new { id = model.Id });
+            }
+
+            return View(model);
         }
     }
 }
