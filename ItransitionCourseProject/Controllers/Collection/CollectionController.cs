@@ -97,6 +97,7 @@ namespace ItransitionCourseProject.Controllers.Collection
                 .AsSingleQuery()
                 .Include(u => u.User)
                 .Include(c => c.Comments)
+                .ThenInclude(c => c.User)
                 .AsSingleQuery()
                 .Include(l => l.Likes)
                 .ThenInclude(u => u.User)

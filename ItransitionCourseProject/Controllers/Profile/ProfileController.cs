@@ -35,6 +35,7 @@ namespace ItransitionCourseProject.Controllers.Profile
                 .ToListAsync();
             ViewBag.UserComments = await _database.Comments
                 .Include(c => c.Collection)
+                .Include(c => c.User)
                 .Where(с => с.User.Id == id)
                 .ToListAsync();
             return View();
