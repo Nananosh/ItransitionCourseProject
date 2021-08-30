@@ -7,16 +7,26 @@
     {
         <div class="container col-lg-12 mt-5">
             <form method="post">
-                <div class="btn-group-sm" role="group" aria-label="Basic example">
-                    <button class="btn" type="submit" asp-action="DeleteUser" asp-controller="Admin">
-                        <img src="https://img.icons8.com/ios/30/000000/delete-forever--v2.png">
-                    </button>
-                    <button class="btn" type="submit" asp-action="BlockUser" asp-controller="Admin">
-                        <img src="https://img.icons8.com/ios-filled/30/AD403D/cancel-2.png"/>
-                    </button>
-                    <button class="btn" type="submit" asp-action="UnBlockUser" asp-controller="Admin">
-                        <img src="https://img.icons8.com/material-outlined/30/2BAD59/unlock.png"/>
-                    </button>
+                <div class="btn-group-sm d-flex justify-content-between" role="group" aria-label="Basic example">
+                    <div>
+                        <button class="btn" type="submit" asp-action="DeleteUser" asp-controller="Admin">
+                            <img src="https://img.icons8.com/ios/30/000000/delete-forever--v2.png">
+                        </button>
+                        <button class="btn" type="submit" asp-action="BlockUser" asp-controller="Admin">
+                            <img src="https://img.icons8.com/ios-filled/30/AD403D/cancel-2.png"/>
+                        </button>
+                        <button class="btn" type="submit" asp-action="UnBlockUser" asp-controller="Admin">
+                            <img src="https://img.icons8.com/material-outlined/30/2BAD59/unlock.png"/>
+                        </button>
+                    </div>
+                    <div>
+                        <button class="btn" type="submit" asp-action="AddAdmin" asp-controller="Admin">
+                            <img src="https://img.icons8.com/ios/30/2BAD59/add-administrator.png"/>
+                        </button>
+                        <button class="btn" type="submit" asp-action="DeleteAdmin" asp-controller="Admin">
+                            <img src="https://img.icons8.com/ios/30/AD403D/remove-administrator.png"/>
+                        </button>
+                    </div>
                 </div>
                 <table class="table bg-secondary shadow p-3 mb-5 bg-white rounded m-2" id="myTable">
                     <thead class="thead-dark">

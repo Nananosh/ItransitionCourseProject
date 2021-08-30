@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
+using ItransitionCourseProject.ViewModels.Account;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,6 +40,27 @@ namespace ItransitionCourseProject.Controllers.Profile
                 .Where(с => с.User.Id == id)
                 .ToListAsync();
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditProfile(string id)
+        {
+            ViewBag.Profile = await _database.Users.FirstOrDefaultAsync(p => p.Id == id);
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(EditProfileViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var profile = await _database.Users.FirstOrDefaultAsync(p => p.Id == model.Id);
+                profile.UserImage = model.Image;
+                await _database.SaveChangesAsync();
+                return RedirectToAction("Profile", "Profile", new { id = model.Id });
+            }
+
+            return View(model);
         }
     }
 }
