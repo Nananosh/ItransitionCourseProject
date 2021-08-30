@@ -1,5 +1,4 @@
-﻿
-namespace ItransitionCourseProject.Models
+﻿namespace ItransitionCourseProject.Models
 {
     public class Like
     {

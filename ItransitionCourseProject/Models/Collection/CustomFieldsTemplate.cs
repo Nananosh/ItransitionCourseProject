@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ItransitionCourseProject.Models
+﻿namespace ItransitionCourseProject.Models
 {
     public class CustomFieldsTemplate
     {

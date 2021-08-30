@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace ItransitionCourseProject.Controllers
+namespace ItransitionCourseProject.Controllers.Home
 {
     public class HomeController : Controller
     {
