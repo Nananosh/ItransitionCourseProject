@@ -5,7 +5,9 @@
 <div id="searchResult" class="container mt-5">
     <div class="row">
         <div class="col-lg-12">
-            <div><a class="text-dark" asp-action="Index" asp-controller="Home">Back</a></div>
+            <div>
+                <a class="text-dark" asp-action="Index" asp-controller="Home">Back</a>
+            </div>
         </div>
     </div>
     <div class="row shadow bg-white rounded justify-content-center pt-4 pb-3 pl-2 pr-2">
@@ -19,8 +21,10 @@
                     <img src="@collection.Image" class="card-img-top shadow-sm bg-white rounded image-popup-no-margins img-card" alt="...">
                 </a>
                 <div class="card-body">
-                    <h5 class="card-title">@collection.Title
-                        <span class="badge badge-info ml-2">@collection.CollectionTheme.Theme</span></h5>
+                    <h5 class="card-title">
+                        @collection.Title
+                        <span class="badge badge-info ml-2">@collection.CollectionTheme.Theme</span>
+                    </h5>
                     <p class="card-text cropped-text">@collection.Description</p>
                     <a asp-action="Collection" asp-controller="Collection" asp-route-id="@collection.Id" class="btn btn-primary">Watch Collection</a>
                 </div>

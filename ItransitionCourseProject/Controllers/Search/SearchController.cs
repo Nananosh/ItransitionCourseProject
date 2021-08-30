@@ -1,12 +1,7 @@
-﻿
-using System;
-using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-
 using ItransitionCourseProject.Models;
 using ItransitionCourseProject.ViewModels.Search;
-using Korzh.EasyQuery.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +15,7 @@ namespace ItransitionCourseProject.Controllers.Search
         {
             _database = context;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> SearchResult(SearchViewModel model)
         {
@@ -32,7 +27,8 @@ namespace ItransitionCourseProject.Controllers.Search
             //     .ToListAsync();
             ViewBag.Collections = await _database.Collections
                 .Include(t => t.CollectionTheme)
-                .Where(c => (c.Title+c.Description+c.CollectionTheme.Theme+c.User.UserName).Contains(model.Query)).ToListAsync();
+                .Where(c => (c.Title + c.Description + c.CollectionTheme.Theme + c.User.UserName).Contains(model.Query))
+                .ToListAsync();
             return View(model);
         }
     }

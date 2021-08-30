@@ -38,6 +38,9 @@
                     </li>
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <li class="nav-item mr-3 pt-1">
+                            <a class="btn btn-outline-primary" asp-controller="Collection" asp-action="CreateCollection">Create Collection</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
                                role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -47,7 +50,10 @@
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" asp-controller="Profile" asp-action="Profile" asp-route-id="@User.Claims.ElementAt(0).Value">@User.Claims.ElementAt(1).Value</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-controller="Collection" asp-action="CreateCollection">Create Collection</a>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a class="dropdown-item" asp-controller="Admin" asp-action="AdminPanel">AdminPanel</a>
+                                }
                                 <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Exit</a>
                             </div>
                         </li>
@@ -75,14 +81,12 @@ $.get('@Context.Request.Scheme://@Context.Request.Host/Profile/GetUserImage/@Use
 </script>
 }
 <script>
-let myData = new Array();
-$(function() {
-    let instance = $('#example').magicSuggest({
-        data: myData
-    });
-});
 $.get('@Context.Request.Scheme://@Context.Request.Host/Collection/GetAllTags', function(data, status){
-    myData = data.slice();
+    $(function() {
+        let instance = $('#example').magicSuggest({
+            data: data.slice()
+        });
+    });
 });
 function getValueDiv(){
     let div = document.getElementsByClassName('ms-sel-item');

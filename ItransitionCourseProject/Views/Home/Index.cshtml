@@ -36,47 +36,51 @@
 
     <div class="container bg-white rounded mt-3 shadow">
         <div class="row pt-3">
-                <div class="four col-md-3">
-                    <div class="counter-box colored shadow-sm rounded"> <i class="fa fa-thumbs-o-up"></i> <span class="counter">@ViewBag.NumberLike</span>
-                        <p>Likes</p>
-                    </div>
-                </div>
-                <div class="four col-md-3">
-                    <div class="counter-box shadow-sm rounded"> <i class="fa fa-group"></i> <span class="counter">@ViewBag.NumberCollections</span>
-                        <p>Collections</p>
-                    </div>
-                </div>
-                <div class="four col-md-3">
-                    <div class="counter-box shadow-sm rounded"> <i class="fa fa-shopping-cart"></i> <span class="counter">@ViewBag.NubmerUsers</span>
-                        <p>Users</p>
-                    </div>
-                </div>
-                <div class="four col-md-3">
-                    <div class="counter-box shadow-sm rounded"> <i class="fa fa-user"></i> <span class="counter">@ViewBag.NumberComments</span>
-                        <p>Comments</p>
-                    </div>
+            <div class="four col-md-3">
+                <div class="counter-box colored shadow-sm rounded">
+                    <i class="fa fa-thumbs-o-up"></i> <span class="counter">@ViewBag.NumberLike</span>
+                    <p>Likes</p>
                 </div>
             </div>
+            <div class="four col-md-3">
+                <div class="counter-box shadow-sm rounded">
+                    <i class="fa fa-group"></i> <span class="counter">@ViewBag.NumberCollections</span>
+                    <p>Collections</p>
+                </div>
+            </div>
+            <div class="four col-md-3">
+                <div class="counter-box shadow-sm rounded">
+                    <i class="fa fa-shopping-cart"></i> <span class="counter">@ViewBag.NubmerUsers</span>
+                    <p>Users</p>
+                </div>
+            </div>
+            <div class="four col-md-3">
+                <div class="counter-box shadow-sm rounded">
+                    <i class="fa fa-user"></i> <span class="counter">@ViewBag.NumberComments</span>
+                    <p>Comments</p>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <h1>Top Collections</h1>
             </div>
         </div>
         <div class="row">
-            @for (int i = 0; i < ViewBag.Collections.Count; i++)
+            @foreach (var collection in ViewBag.Collections)
             {
                 <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card bg-secondary bg-white rounded mb-4" style="width: 18rem;">
-                        <a href="@ViewBag.Collections[i].Image" data-toggle="lightbox" data-title="@ViewBag.Collections[i].Title">
-                            <img src="@ViewBag.Collections[i].Image" class="card-img-top shadow-sm bg-white rounded image-popup-no-margins img-card" alt="...">
+                        <a href="@collection.Image" data-toggle="lightbox" data-title="@collection.Title">
+                            <img src="@collection.Image" class="card-img-top shadow-sm bg-white rounded image-popup-no-margins img-card" alt="...">
                         </a>
                         <div class="card-body">
                             <h5 class="card-title">
-                                @ViewBag.Collections[i].Title
-                                <span class="badge badge-info ml-2">@ViewBag.Collections[i].CollectionTheme.Theme</span>
+                                @collection.Title
+                                <span class="badge badge-info ml-2">@collection.CollectionTheme.Theme</span>
                             </h5>
-                            <p class="card-text cropped-text">@ViewBag.Collections[i].Description</p>
-                            <a asp-action="Collection" asp-controller="Collection" asp-route-id="@ViewBag.Collections[i].Id" class="btn btn-primary">Watch Collection</a>
+                            <p class="card-text cropped-text">@collection.Description</p>
+                            <a asp-action="Collection" asp-controller="Collection" asp-route-id="@collection.Id" class="btn btn-primary align-self-end">Watch Collection</a>
                         </div>
                     </div>
                 </div>
@@ -88,19 +92,19 @@
             </div>
         </div>
         <div class="row">
-            @for (int i = 0; i < ViewBag.LastAddedCollectionElement.Count; i++)
+            @foreach (var lastAddedCollectionElement in ViewBag.LastAddedCollectionElement)
             {
                 <div class="col-lg-4 d-flex justify-content-center">
                     <div class="card bg-secondary bg-white rounded mb-4" style="width: 18rem;">
-                        <a href="@ViewBag.LastAddedCollectionElement[i].Image" data-toggle="lightbox" data-title="@ViewBag.LastAddedCollectionElement[i].Title">
-                            <img src="@ViewBag.LastAddedCollectionElement[i].Image" class="card-img-top shadow-sm bg-white rounded image-popup-no-margins img-card" alt="...">
+                        <a href="@lastAddedCollectionElement.Image" data-toggle="lightbox" data-title="@lastAddedCollectionElement.Title">
+                            <img src="@lastAddedCollectionElement.Image" class="card-img-top shadow-sm bg-white rounded image-popup-no-margins img-card" alt="...">
                         </a>
                         <div class="card-body">
                             <h5 class="card-title">
-                                @ViewBag.Collections[i].Title
+                                @lastAddedCollectionElement.Title
                             </h5>
-                            <p class="card-text cropped-text">@ViewBag.LastAddedCollectionElement[i].Description</p>
-                            <a asp-action="CollectionElement" asp-controller="Collection" asp-route-id="@ViewBag.LastAddedCollectionElement[i].Id" class="btn btn-primary">Watch Element</a>
+                            <p class="card-text cropped-text">@lastAddedCollectionElement.Description</p>
+                            <a asp-action="CollectionElement" asp-controller="Collection" asp-route-id="@lastAddedCollectionElement.Id" class="btn btn-primary">Watch Item</a>
                         </div>
                     </div>
                 </div>

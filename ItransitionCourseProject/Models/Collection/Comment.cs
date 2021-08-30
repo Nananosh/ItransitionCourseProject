@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ItransitionCourseProject.Models
+﻿namespace ItransitionCourseProject.Models
 {
     public class Comment
     {

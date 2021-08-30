@@ -3,14 +3,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using ItransitionCourseProject.Models;
-using ItransitionCourseProject.ViewModels;
 using ItransitionCourseProject.ViewModels.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace ItransitionCourseProject.Controllers
+namespace ItransitionCourseProject.Controllers.Account
 {
     public class AccountController : Controller
     {
@@ -122,7 +121,8 @@ namespace ItransitionCourseProject.Controllers
                 var user = new User
                 {
                     Email = model.Email, UserName = model.UserName, RegistrationDate = DateTime.Now,
-                    LastLoginDate = DateTime.Now,UserImage = "https://img.icons8.com/material-outlined/200/000000/user--v1.png"
+                    LastLoginDate = DateTime.Now,
+                    UserImage = "https://img.icons8.com/material-outlined/200/000000/user--v1.png"
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
